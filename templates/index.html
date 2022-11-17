@@ -1,0 +1,119 @@
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300,500,700&display=swap" rel="stylesheet" />
+  </head>
+  <style>
+    body{ 
+      font-size: 15pt;
+      font-family: arial;
+      margin: 0;
+    }
+
+    .main-wrapper {
+      font-family: Poppins;
+    }
+
+    .top-wrapper {
+      box-shadow: 0px 0px 15px 0px #9BCBEB;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-text-wrapper {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+    }
+    
+    .logo-image {
+      width: 35px;
+      border-radius: 23px;
+      box-shadow: 0px 0px 15px 0px #c3e4fa;
+      margin-right: 10px;
+    }
+
+    .logo-text {
+      color:#003865;
+      font-size:25px;
+      font-weight: 700;
+      margin-right: 20px;
+    }
+
+    .search-wrapper {
+      background-color: #ebebeb;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-text {
+      color: #979797;
+      font-size: 16px;
+      padding: 5px;
+    }
+
+    .search-icon {
+      width: 15px;
+      height: 15px;
+      margin: 0 5px 0 10px;
+    }
+  </style>
+
+
+<body>
+  <!--
+  <h1>Some famous Computer Scientists</h1>
+  
+  <div>{{data}}</div>
+
+  <div>
+    {% for n in data %}
+    <div>{{n}}</div>
+    {% endfor %}
+    
+  </div>
+  
+
+<p><a href="another">Go to the other page</a></p>
+
+<form method="POST" action="/add">
+<p>Name of new computer scientist: <input type="text" name="name"> <input type="submit" value="Add"></p>
+</form>
+-->
+
+<!--Below we have our actual home page-->
+
+<div class="main-wrapper">
+  <div class="top-wrapper">
+    <div class="logo-text-wrapper">
+      <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
+      <div class="logo-text">
+        DormSwap
+      </div>
+    </div>
+    <div class="search-wrapper">
+      <img class="search-icon" src="{{url_for('static', filename='search.png')}}" align="middle" />
+      <!--Make this a form?-->
+      <div class="search-text">
+        Search for used items for sale on Columbia University's campus
+      </div>
+    </div>
+    <div class="filters-wrapper">Put filters here</div>
+    <div class="profile-menu-wrapper">Put user menu here</div>
+  </div>
+  <div class="body-wrapper">
+    <div class="left-wrapper">
+      <div class="new-listing-btn-wrapper">
+        <img class="plus-icon" src="" align="middle" />
+        <div class="new-listing-btn-text">New Listing</div>
+      </div>
+      <div class="messenger-text">Messenger</div>
+    </div>
+    <div class="item-pane-wrapper"></div>
+  </div>
+</div>
+
+</body>
+
+
+</html>
