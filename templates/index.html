@@ -7,6 +7,7 @@
       font-size: 15pt;
       font-family: arial;
       margin: 0;
+      overflow-x: hidden;
     }
 
     .main-wrapper {
@@ -18,12 +19,13 @@
     .top-wrapper {
       box-shadow: 0px 0px 15px 0px #9BCBEB;
       background: white;
-      position: absolute;
+      position: fixed;
       top: 0;
       width: 100%;
       justify-content: space-between;
       display: flex;
       align-items: center;
+      z-index: 1;
     }
 
     .top-wrapper-left {
@@ -36,6 +38,9 @@
       width: 210px;
       height: 100vh;
       background: white;
+      position: fixed;
+      z-index: -1;
+      top: 0;
     }
 
     .logo-text-wrapper {
@@ -146,6 +151,7 @@
 
     .new-listing-btn-wrapper {
       padding-top: 60px;
+      position: fixed;
     }
 
     .new-listing-btn {
@@ -157,6 +163,7 @@
       justify-content: center;
       padding: 8px;
       transition: 0.2s ease-in-out;
+      width: 175px;
     }
 
     .new-listing-btn:hover {
@@ -182,17 +189,115 @@
       font-size: 16px;
       color: #003865;
       margin-left: 10px;
-      margin-top: 20px;
+      margin-top: 130px;
+    }
+
+    .item-pane-wrapper {
+      margin-left: 230px;
+      margin-top: 75px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .item-feature-wrapper {
+      height: 170px;
+      width: 170px;
+      border-radius: 10px;
+      margin: 0 20px 20px 0;
+      box-shadow: 0px 0px 8px 0px #9BCBEB;
+      transition: 0.2s ease-in-out;
+    }
+
+    .item-feature-wrapper:hover {
+      cursor: pointer;
+      box-shadow: 0px 0px 15px 0px #78a9ca;
+    }
+
+    .item-feature-top {
+      height: 110px;
+      width: 170px;
+    }
+
+    .item-feature-photo {
+      object-fit: cover;
+      height: 100%;
+      width: 170px;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .item-feature-white-heart {
+      position: absolute;
+      max-width: 30px;
+      max-height: 30px;
+      object-fit: cover;
+      margin-left: -40px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+    }
+
+    .item-feature-white-heart:hover {
+      opacity: 0.8;
+    }
+
+    .item-feature-bottom-text {
+      font-weight: 500;
+      font-size: 13px;
+      color: #003865;
+      margin: 5px 10px 5px 10px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .item-feature-bottom-data-wrapper {
+      display: flex;
+      margin-left: 8px;
+    }
+
+    .item-feature-bottom-icon {
+      max-width: 14px;
+      max-height: 14px;
+      object-fit: cover;
+      margin: 0 3px;
+    }
+
+    .item-feature-bottom-standard-wrapper {
+      display: flex;
+      align-items: center;
+    }
+
+    .item-feature-bottom-money-wrapper {
+      display: flex;
+      align-items: center;
+      margin-right: 5px;
+    }
+
+    .item-feature-bottom-text-standard {
+      color: #9B9B9B;
+      font-size: 12px;
+      margin-right: 5px;
+      margin-left: 1px;
+    }
+
+    .item-feature-bottom-text-white {
+      color: white;
+      font-size: 12px;
+      margin-right: 3px;
+      margin-left: 1px;
+    }
+
+    .item-feature-bottom-money-wrapper {
+      background: #003865;
+      border-radius: 5px;
+      padding: 3px;
     }
   </style>
 
 
-<body>
-  <!--
-  <h1>Some famous Computer Scientists</h1>
+<body>  
   
-  <div>{{data}}</div>
-
+<!--
   <div>
     {% for n in data %}
     <div>{{n}}</div>
@@ -207,6 +312,7 @@
 <p>Name of new computer scientist: <input type="text" name="name"> <input type="submit" value="Add"></p>
 </form>
 -->
+
 
 <!--Below we have our actual home page-->
 
@@ -260,15 +366,41 @@
   </div>
   <div class="body-wrapper">
     <div class="left-wrapper">
-      <div class="new-listing-btn-wrapper">
-        <div class="new-listing-btn">
-          <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
-          <div class="new-listing-btn-text">New Listing</div>
-        </div>
-      </div>
       <div class="messenger-text">Messenger</div>
     </div>
-    <div class="item-pane-wrapper"></div>
+    <div class="new-listing-btn-wrapper">
+      <div class="new-listing-btn">
+        <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
+        <div class="new-listing-btn-text">New Listing</div>
+      </div>
+    </div>
+    <div class="item-pane-wrapper">
+        {% for item in items %}
+        <div class="item-feature-wrapper">
+          <div class="item-feature-top">
+            <img class="item-feature-photo" src="{{item.item_photo}}" align="middle" />
+            <img class="item-feature-white-heart" src="{{url_for('static', filename='whiteheart.png')}}" align="middle" />
+          </div>
+          <div class="item-feature-bottom">
+            <div class="item-feature-bottom-text">{{item.item_name}}</div>
+            <div class="item-feature-bottom-data-wrapper">
+              <div class="item-feature-bottom-money-wrapper">
+                <img class="item-feature-bottom-icon" src="{{url_for('static', filename='whitemoney.png')}}" align="middle" />
+                <div class="item-feature-bottom-text-white">{{item.price}}</div>
+              </div>
+              <div class="item-feature-bottom-standard-wrapper">
+                <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayeye.png')}}" align="middle" />
+                <div class="item-feature-bottom-text-standard">{{item.views}}</div>
+              </div>
+              <div class="item-feature-bottom-standard-wrapper">
+                <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayheart.png')}}" align="middle" />
+                <div class="item-feature-bottom-text-standard">{{item.likes}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
   </div>
 </div>
 
