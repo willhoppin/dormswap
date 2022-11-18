@@ -1,4 +1,5 @@
 <html>
+
   <head>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300,500,700&display=swap" rel="stylesheet" />
   </head>
@@ -77,6 +78,12 @@
       padding: 5px 20px 5px 5px;
     }
 
+    .top-bar-form {
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
     .search-icon {
       width: 15px;
       height: 15px;
@@ -141,7 +148,9 @@
       margin-right: 5px;
       border-radius: 30px;
       transition: 0.2s ease-in-out;
-      padding: 0px 7px;
+      padding: 3px 7px;
+      border: none;
+      background: white;
     }
 
     .filter-button:hover {
@@ -295,114 +304,109 @@
   </style>
 
 
-<body>  
-  
-<!--
-  <div>
-    {% for n in data %}
-    <div>{{n}}</div>
-    {% endfor %}
-    
-  </div>
-  
+<body> 
 
-<p><a href="another">Go to the other page</a></p>
-
-<form method="POST" action="/add">
-<p>Name of new computer scientist: <input type="text" name="name"> <input type="submit" value="Add"></p>
-</form>
--->
-
-
-<!--Below we have our actual home page-->
-
-<div class="main-wrapper">
-  <div class="top-wrapper">
-    <div class="top-wrapper-left">
-      <div class="logo-text-wrapper">
-        <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
-        <div class="logo-text">
-          DormSwap
-        </div>
-      </div>
-      <div class="search-wrapper">
-        <img class="search-icon" src="{{url_for('static', filename='search.png')}}" align="middle" />
-        <!--Make this a form?-->
-        <div class="search-text">
-          Search for used items for sale on Columbia University's campus...
-        </div>
-      </div>
-      <div class="filters-wrapper">
-        <div class="filters-text">Sort By:</div>
-        <div class="filter-button">
-          <img class="filter-button-icon" src="{{url_for('static', filename='heart.png')}}" align="middle" />
-          <div class="filter-button-text">Likes</div>
-        </div>
-        <div class="filter-button">
-          <img class="filter-button-icon" src="{{url_for('static', filename='eye.png')}}" align="middle" />
-          <div class="filter-button-text">Views</div>
-        </div>
-        <div class="filter-button">
-          <img class="filter-button-icon" src="{{url_for('static', filename='star.png')}}" align="middle" />
-          <div class="filter-button-text">Reviews</div>
-        </div>
-        <div class="filter-button">
-          <img class="filter-button-icon" src="{{url_for('static', filename='cal.png')}}" align="middle" />
-          <div class="filter-button-text">Date</div>
-        </div>
-        <div class="filter-button">
-          <img class="filter-button-icon" src="{{url_for('static', filename='money.png')}}" align="middle" />
-          <div class="filter-button-text">Price</div>
-        </div>
-      </div>
-    </div>
-    <div class="top-wrapper-right">
-      <div class="profile-menu-wrapper">
-        <img class="profile-menu-photo" src="{{url_for('static', filename='caret.png')}}" align="middle" />
-        <div class="profile-menu-text">Username</div>
-        <img class="profile-menu-caret" src="{{url_for('static', filename='caret.png')}}" align="middle" />
-      </div>
-    </div>
-  </div>
-  <div class="body-wrapper">
-    <div class="left-wrapper">
-      <div class="messenger-text">Messenger</div>
-    </div>
-    <div class="new-listing-btn-wrapper">
-      <div class="new-listing-btn">
-        <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
-        <div class="new-listing-btn-text">New Listing</div>
-      </div>
-    </div>
-    <div class="item-pane-wrapper">
-        {% for item in items %}
-        <div class="item-feature-wrapper">
-          <div class="item-feature-top">
-            <img class="item-feature-photo" src="{{item.item_photo}}" align="middle" />
-            <img class="item-feature-white-heart" src="{{url_for('static', filename='whiteheart.png')}}" align="middle" />
+  {% if userName != "" %}
+  <div class="main-wrapper">
+    <div class="top-wrapper">
+      <div class="top-wrapper-left">
+        <div class="logo-text-wrapper">
+          <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
+          <div class="logo-text">
+            DormSwap
           </div>
-          <div class="item-feature-bottom">
-            <div class="item-feature-bottom-text">{{item.item_name}}</div>
-            <div class="item-feature-bottom-data-wrapper">
-              <div class="item-feature-bottom-money-wrapper">
-                <img class="item-feature-bottom-icon" src="{{url_for('static', filename='whitemoney.png')}}" align="middle" />
-                <div class="item-feature-bottom-text-white">{{item.price}}</div>
-              </div>
-              <div class="item-feature-bottom-standard-wrapper">
-                <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayeye.png')}}" align="middle" />
-                <div class="item-feature-bottom-text-standard">{{item.views}}</div>
-              </div>
-              <div class="item-feature-bottom-standard-wrapper">
-                <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayheart.png')}}" align="middle" />
-                <div class="item-feature-bottom-text-standard">{{item.likes}}</div>
+        </div>
+        <div class="search-wrapper">
+          <img class="search-icon" src="{{url_for('static', filename='search.png')}}" align="middle" />
+          <!--Make this a form?-->
+          <div class="search-text">
+            Search for used items for sale on Columbia University's campus...
+          </div>
+        </div>
+        <div class="filters-wrapper">
+          <div class="filters-text">Sort By:</div>
+          <form class="top-bar-form" action="/sortLikes">
+            <button class="filter-button">
+              <img class="filter-button-icon" src="{{url_for('static', filename='heart.png')}}" align="middle" />
+              <div class="filter-button-text">Likes</div>
+            </button>
+          </form>
+          <form class="top-bar-form" action="/sortViews">
+            <button class="filter-button">
+              <img class="filter-button-icon" src="{{url_for('static', filename='eye.png')}}" align="middle" />
+              <div class="filter-button-text">Views</div>
+            </button>
+          </form>
+          <form class="top-bar-form" action="/sortReviews">
+            <button class="filter-button">
+              <img class="filter-button-icon" src="{{url_for('static', filename='star.png')}}" align="middle" />
+              <div class="filter-button-text">Reviews</div>
+            </button>
+          </form>
+          <form class="top-bar-form" action="/sortPrice">
+            <button class="filter-button">
+              <img class="filter-button-icon" src="{{url_for('static', filename='money.png')}}" align="middle" />
+              <div class="filter-button-text">Price</div>
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="top-wrapper-right">
+        <div class="profile-menu-wrapper">
+          <img class="profile-menu-photo" src="{{url_for('static', filename='caret.png')}}" align="middle" />
+          <div class="profile-menu-text">{{current_user.user_name}}</div>
+          <img class="profile-menu-caret" src="{{url_for('static', filename='caret.png')}}" align="middle" />
+        </div>
+      </div>
+    </div>
+    <div class="body-wrapper">
+      <div class="left-wrapper">
+        <div class="messenger-text">Messenger</div>
+      </div>
+      <div class="new-listing-btn-wrapper">
+        <div class="new-listing-btn">
+          <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
+          <div class="new-listing-btn-text">New Listing</div>
+        </div>
+      </div>
+      <div class="item-pane-wrapper">
+          {% for item in items %}
+          <div class="item-feature-wrapper">
+            <div class="item-feature-top">
+              <img class="item-feature-photo" src="{{item.item_photo}}" align="middle" />
+              <img class="item-feature-white-heart" src="{{url_for('static', filename='whiteheart.png')}}" align="middle" />
+            </div>
+            <div class="item-feature-bottom">
+              <div class="item-feature-bottom-text">{{item.item_name}}</div>
+              <div class="item-feature-bottom-data-wrapper">
+                <div class="item-feature-bottom-money-wrapper">
+                  <img class="item-feature-bottom-icon" src="{{url_for('static', filename='whitemoney.png')}}" align="middle" />
+                  <div class="item-feature-bottom-text-white">{{item.price}}</div>
+                </div>
+                <div class="item-feature-bottom-standard-wrapper">
+                  <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayeye.png')}}" align="middle" />
+                  <div class="item-feature-bottom-text-standard">{{item.views}}</div>
+                </div>
+                <div class="item-feature-bottom-standard-wrapper">
+                  <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayheart.png')}}" align="middle" />
+                  <div class="item-feature-bottom-text-standard">{{item.likes}}</div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        {% endfor %}
+          {% endfor %}
+      </div>
     </div>
   </div>
-</div>
+
+  {% else %}
+
+  <div>You gotta login idiot</div>
+  <form method="POST" action="/login">
+    <p>Enter your email to login: <input type="text" name="name"><input type="submit" value="Add"></p>
+  </form>
+
+  {% endif %}
 
 </body>
 

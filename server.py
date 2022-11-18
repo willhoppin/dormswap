@@ -8,6 +8,7 @@ Go to http://localhost:8111 in your browser.
 A debugger such as "pdb" may be helpful for debugging.
 Read about it online.
 """
+import logging
 import os
   # accessible as a variable in index.html:
 from sqlalchemy import *
@@ -144,12 +145,11 @@ def index():
   #
   context = dict(items = items)
 
-
   #
   # render_template looks in the templates/ folder for files.
   # for example, the below file reads template/index.html
   #
-  return render_template("index.html", **context)
+  return render_template("index.html", **context, userName="")
 
 #
 # This is an example of a different path.  You can see it at:
@@ -163,19 +163,71 @@ def index():
 def another():
   return render_template("another.html")
 
+@app.route('/sortLikes')
+def sortLikes():
+  items = []
+  cursor = g.conn.execute("SELECT * FROM Items ORDER BY likes DESC")
+  items = []
+  for result in cursor:
+    items.append(result)
+  cursor.close()
+  context = dict(items = items)
+  return render_template("index.html", **context)
 
-# Example of adding new data to the database
-@app.route('/add', methods=['POST'])
-def add():
-  name = request.form['name']
-  g.conn.execute('INSERT INTO test(name) VALUES (%s)', name)
-  return redirect('/')
+@app.route('/sortViews')
+def sortViews():
+  items = []
+  cursor = g.conn.execute("SELECT * FROM Items ORDER BY views DESC")
+  items = []
+  for result in cursor:
+    items.append(result)
+  cursor.close()
+  context = dict(items = items)
+  return render_template("index.html", **context)
+
+@app.route('/sortReviews')
+def sortReviews():
+  items = []
+  #change the below SQL!
+  cursor = g.conn.execute("SELECT * FROM Items ORDER BY reviews DESC")
+  items = []
+  for result in cursor:
+    items.append(result)
+  cursor.close()
+  context = dict(items = items)
+  return render_template("index.html", **context)
+
+@app.route('/sortPrice')
+def sortPrice():
+  items = []
+  cursor = g.conn.execute("SELECT * FROM Items ORDER BY price DESC")
+  items = []
+  for result in cursor:
+    items.append(result)
+  cursor.close()
+  context = dict(items = items)
+  return render_template("index.html", **context)
 
 
-@app.route('/login')
+@app.route('/login', methods=['POST'])
 def login():
-    abort(401)
-    this_is_never_executed()
+    userName = "";
+    name = request.form['name']
+    nameCursor = g.conn.execute("SELECT * FROM Users WHERE email = (%s)", name);
+    for result in nameCursor:
+      current_user = result
+    nameCursor.close()
+    
+
+    #pull items if successful
+    items = []
+    cursor = g.conn.execute("SELECT * FROM Items")
+    items = []
+    for result in cursor:
+      items.append(result)
+    cursor.close()
+    context = dict(items = items)
+    return render_template("index.html", **context, current_user=current_user)
 
 
 if __name__ == "__main__":
