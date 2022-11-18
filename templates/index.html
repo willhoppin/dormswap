@@ -11,12 +11,31 @@
 
     .main-wrapper {
       font-family: Poppins;
+      display: flex;
+      flex-direction: column-reverse;
     }
 
     .top-wrapper {
       box-shadow: 0px 0px 15px 0px #9BCBEB;
+      background: white;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      justify-content: space-between;
       display: flex;
       align-items: center;
+    }
+
+    .top-wrapper-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .left-wrapper {
+      box-shadow: 0px 0px 15px 0px #9BCBEB;
+      width: 210px;
+      height: 100vh;
+      background: white;
     }
 
     .logo-text-wrapper {
@@ -44,18 +63,126 @@
       border-radius: 7px;
       display: flex;
       align-items: center;
+      margin-right: 20px;
     }
 
     .search-text {
       color: #979797;
-      font-size: 16px;
-      padding: 5px;
+      font-size: 14px;
+      padding: 5px 20px 5px 5px;
     }
 
     .search-icon {
       width: 15px;
       height: 15px;
       margin: 0 5px 0 10px;
+    }
+
+    .filters-wrapper {
+      display: flex;
+      color: #003865;
+      font-size: 14px;
+    }
+
+    .filters-text {
+      font-weight: 500;
+      margin-right: 10px;
+    }
+
+    .filter-button-icon {
+      max-height: 12px;
+      max-width: 12px;
+      margin-right: 5px;
+      object-fit: cover;
+    }
+
+    .profile-menu-wrapper {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      border-radius: 7px;
+      transition: 0.2s ease-in-out;
+      margin-right: 10px;
+    }
+
+    .profile-menu-wrapper:hover {
+      background: #d3dce2;
+      cursor: pointer;
+    }
+
+    .profile-menu-text {
+      font-weight: 500;
+      font-size: 15px;
+      color: #003865;
+      margin: 0 10px 0 15px;
+    }
+
+    .profile-menu-caret {
+      max-height: 12px;
+      max-width: 12px;
+      object-fit: cover;
+    }
+
+    .profile-menu-photo {
+      max-height: 35px;
+      max-width: 35px;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    .filter-button {
+      display: flex;
+      align-items: center;
+      margin-right: 5px;
+      border-radius: 30px;
+      transition: 0.2s ease-in-out;
+      padding: 0px 7px;
+    }
+
+    .filter-button:hover {
+      background: #d3dce2;
+      cursor: pointer;
+    }
+
+    .new-listing-btn-wrapper {
+      padding-top: 60px;
+    }
+
+    .new-listing-btn {
+      display: flex;
+      align-items: center;
+      background: #003865;
+      border-radius: 7px;
+      margin: 10px;
+      justify-content: center;
+      padding: 8px;
+      transition: 0.2s ease-in-out;
+    }
+
+    .new-listing-btn:hover {
+      cursor: pointer;
+      background: #2d6897;
+    }
+
+    .new-listing-btn-text {
+      color: white;
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    .new-listing-btn-icon {
+      max-height: 15px;
+      max-width: 15px;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .messenger-text {
+      font-weight: 500;
+      font-size: 16px;
+      color: #003865;
+      margin-left: 10px;
+      margin-top: 20px;
     }
   </style>
 
@@ -85,27 +212,59 @@
 
 <div class="main-wrapper">
   <div class="top-wrapper">
-    <div class="logo-text-wrapper">
-      <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
-      <div class="logo-text">
-        DormSwap
+    <div class="top-wrapper-left">
+      <div class="logo-text-wrapper">
+        <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
+        <div class="logo-text">
+          DormSwap
+        </div>
+      </div>
+      <div class="search-wrapper">
+        <img class="search-icon" src="{{url_for('static', filename='search.png')}}" align="middle" />
+        <!--Make this a form?-->
+        <div class="search-text">
+          Search for used items for sale on Columbia University's campus...
+        </div>
+      </div>
+      <div class="filters-wrapper">
+        <div class="filters-text">Sort By:</div>
+        <div class="filter-button">
+          <img class="filter-button-icon" src="{{url_for('static', filename='heart.png')}}" align="middle" />
+          <div class="filter-button-text">Likes</div>
+        </div>
+        <div class="filter-button">
+          <img class="filter-button-icon" src="{{url_for('static', filename='eye.png')}}" align="middle" />
+          <div class="filter-button-text">Views</div>
+        </div>
+        <div class="filter-button">
+          <img class="filter-button-icon" src="{{url_for('static', filename='star.png')}}" align="middle" />
+          <div class="filter-button-text">Reviews</div>
+        </div>
+        <div class="filter-button">
+          <img class="filter-button-icon" src="{{url_for('static', filename='cal.png')}}" align="middle" />
+          <div class="filter-button-text">Date</div>
+        </div>
+        <div class="filter-button">
+          <img class="filter-button-icon" src="{{url_for('static', filename='money.png')}}" align="middle" />
+          <div class="filter-button-text">Price</div>
+        </div>
       </div>
     </div>
-    <div class="search-wrapper">
-      <img class="search-icon" src="{{url_for('static', filename='search.png')}}" align="middle" />
-      <!--Make this a form?-->
-      <div class="search-text">
-        Search for used items for sale on Columbia University's campus
+    <div class="top-wrapper-right">
+      <div class="profile-menu-wrapper">
+        <img class="profile-menu-photo" src="{{url_for('static', filename='caret.png')}}" align="middle" />
+        <div class="profile-menu-text">Username</div>
+        <img class="profile-menu-caret" src="{{url_for('static', filename='caret.png')}}" align="middle" />
       </div>
     </div>
-    <div class="filters-wrapper">Put filters here</div>
-    <div class="profile-menu-wrapper">Put user menu here</div>
   </div>
   <div class="body-wrapper">
     <div class="left-wrapper">
       <div class="new-listing-btn-wrapper">
-        <img class="plus-icon" src="" align="middle" />
-        <div class="new-listing-btn-text">New Listing</div>
+        <div class="new-listing-btn">
+          <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
+          <div class="new-listing-btn-text">New Listing</div>
+        </div>
       </div>
       <div class="messenger-text">Messenger</div>
     </div>
