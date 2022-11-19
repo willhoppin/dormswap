@@ -206,8 +206,7 @@ def sortReviews(user_id):
     current_user = result
   nameCursor.close()
 
-  #change the below SQL!
-  cursor = g.conn.execute("SELECT * FROM Items ORDER BY reviews DESC")
+  cursor = g.conn.execute("SELECT * FROM Items i, Deal d, Users u where i.item_id = d.item_id AND d.seller_id = u.user_id ORDER BY i.views DESC")
   items = []
   for result in cursor:
     items.append(result)
