@@ -182,6 +182,7 @@
     .new-listing-btn-wrapper {
       padding-top: 60px;
       position: fixed;
+      margin: 20px;
     }
 
     .new-listing-btn {
@@ -483,14 +484,18 @@
       </div>
     </div>
     <div class="body-wrapper">
-      <div class="left-wrapper">
-        <div class="messenger-text">Messenger</div>
-      </div>
       <div class="new-listing-btn-wrapper">
-        <div class="new-listing-btn">
-          <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
-          <div class="new-listing-btn-text">New Listing</div>
-        </div>
+          <form class="login-form" method="POST" action="/accountCreator">
+            <div class="form-title">Title</div>
+            <input class="login-input" placeholder="Thing" type="text" name="username">
+            <div class="form-title">Description</div>
+            <input class="login-input" placeholder="This thing is good" type="text" name="email">
+            <div class="form-title">Asking Price</div>
+            <input class="login-input" placeholder="$100" type="text" name="address">
+            <div class="form-title">Photo URL</div>
+            <input class="login-input" placeholder="images.thing.com/thing" type="text" name="photo">
+            <input class="login-submit-btn" type="submit" value="New Listing">
+        </form>
       </div>
       <div class="item-pane-wrapper">
           {% for item in items %}
