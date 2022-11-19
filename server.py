@@ -209,15 +209,21 @@ def sortPrice():
   return render_template("index.html", **context)
 
 
-@app.route('/login', methods=['POST'])
-def login():
-    userName = "";
+@app.route('/loggedIn', methods=['POST'])
+def loggedIn():
     name = request.form['name']
-    nameCursor = g.conn.execute("SELECT * FROM Users WHERE email = (%s)", name);
+    nameCursor = g.conn.execute("SELECT * FROM Users WHERE email = (%s)", name)
+    count = 0
+    current_user = []
     for result in nameCursor:
+      count = count + 1
       current_user = result
     nameCursor.close()
-    
+
+    user_logged_in = False
+
+    if (count == 1):
+      user_logged_in = True
 
     #pull items if successful
     items = []
@@ -227,7 +233,7 @@ def login():
       items.append(result)
     cursor.close()
     context = dict(items = items)
-    return render_template("index.html", **context, current_user=current_user)
+    return render_template("index.html", **context, current_user=current_user, user_logged_in=user_logged_in)
 
 
 if __name__ == "__main__":

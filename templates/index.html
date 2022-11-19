@@ -9,13 +9,13 @@
       font-family: arial;
       margin: 0;
       overflow-x: hidden;
+      font-family: Poppins;
     }
 
     .main-wrapper {
-      font-family: Poppins;
       display: flex;
       flex-direction: column-reverse;
-    }
+    }github
 
     .top-wrapper {
       box-shadow: 0px 0px 15px 0px #9BCBEB;
@@ -301,12 +301,29 @@
       border-radius: 5px;
       padding: 3px;
     }
+
+    .login-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-size: cover;
+      background: url({{ url_for('static', filename='backgroundarrows.png') }});
+    }
+
+    .login-main-box {
+      width: 400px;
+      height: 500px;
+      box-shadow: 0px 0px 15px 0px #9BCBEB;
+      border-radius: 15px;
+      background: white;
+    }
   </style>
 
 
 <body> 
 
-  {% if userName != "" %}
+  {% if user_logged_in %}
   <div class="main-wrapper">
     <div class="top-wrapper">
       <div class="top-wrapper-left">
@@ -353,7 +370,7 @@
       </div>
       <div class="top-wrapper-right">
         <div class="profile-menu-wrapper">
-          <img class="profile-menu-photo" src="{{url_for('static', filename='caret.png')}}" align="middle" />
+          <img class="profile-menu-photo" src="{{current_user.photo}}" align="middle" />
           <div class="profile-menu-text">{{current_user.user_name}}</div>
           <img class="profile-menu-caret" src="{{url_for('static', filename='caret.png')}}" align="middle" />
         </div>
@@ -400,11 +417,22 @@
   </div>
 
   {% else %}
-
-  <div>You gotta login idiot</div>
-  <form method="POST" action="/login">
-    <p>Enter your email to login: <input type="text" name="name"><input type="submit" value="Add"></p>
-  </form>
+  <div class="login-wrapper">
+    <div class="login-main-box">
+      <div class="top-row-wrapper">
+        <div class="logo-text">Login</div>
+        <div class="logo-text-wrapper">
+          <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
+          <div class="logo-text">
+            DormSwap
+          </div>
+        </div>
+      </div>
+      <form class="login-form" method="POST" action="/loggedIn">
+        <p>Enter your email to login: <input type="text" name="name"><input type="submit" value="Add"></p>
+      </form>
+    </div>
+  </div>  
 
   {% endif %}
 
