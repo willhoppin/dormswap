@@ -185,8 +185,8 @@ def accountCreator():
 
     return render_template("index.html", **context, current_user=current_user, user_logged_in=True)
 
-@app.route('/loggedIn', methods=['POST'])
-def loggedIn():
+@app.route('/logInWInput', methods=['POST'])
+def logInWInput():
     name = request.form['name']
     nameCursor = g.conn.execute("SELECT * FROM Users WHERE email = (%s)", name)
     count = 0
@@ -196,20 +196,33 @@ def loggedIn():
       current_user = result
     nameCursor.close()
 
-    user_logged_in = False
-
     if (count == 1):
-      user_logged_in = True
+      redirectURL = '/loggedIn/' + current_user.user_id
+      return redirect(redirectURL)
+    else:
+      #insert message about user not being able to log in
+      return redirect('/')
 
-    #pull items if successful
+@app.route('/loggedIn/<user_id>')
+def loggedIn(user_id):
+    #handle if no user
+    if (user_id == ""):
+      return redirect('/')
+    
+    nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
+    current_user = []
+    for result in nameCursor:
+      current_user = result
+    nameCursor.close()
+
+    #pull items
     items = []
     cursor = g.conn.execute("SELECT * FROM Items")
     for result in cursor:
       items.append(result)
     cursor.close()
     context = dict(items = items)
-    return render_template("index.html", **context, current_user=current_user, user_logged_in=user_logged_in)
-
+    return render_template("index.html", **context, current_user=current_user, user_logged_in=True)
 
 if __name__ == "__main__":
   import click

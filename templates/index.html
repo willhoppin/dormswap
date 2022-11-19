@@ -116,10 +116,18 @@
       font-size: 14px;
     }
 
+    .filter-button-text {
+      white-space: nowrap;
+      font-family: Poppins;
+      color: #003865;
+    }
+
     .filters-text {
       font-weight: 500;
       margin-right: 10px;
       margin-left: 20px;
+      margin-top: 3px;
+      white-space: nowrap;
     }
 
     .filter-button-icon {
@@ -136,11 +144,6 @@
       border-radius: 7px;
       transition: 0.2s ease-in-out;
       margin-right: 10px;
-    }
-
-    .profile-menu-wrapper:hover {
-      background: #d3dce2;
-      cursor: pointer;
     }
 
     .profile-menu-text {
@@ -182,7 +185,6 @@
     .new-listing-btn-wrapper {
       padding-top: 60px;
       position: fixed;
-      margin: 20px;
     }
 
     .new-listing-btn {
@@ -459,7 +461,7 @@
           <form class="top-bar-form" action="/sortReviews/{{current_user.user_id}}">
             <button class="filter-button">
               <img class="filter-button-icon" src="{{url_for('static', filename='star.png')}}" align="middle" />
-              <div class="filter-button-text">Reviews</div>
+              <div class="filter-button-text">Seller Reviews</div>
             </button>
           </form>
           <form class="top-bar-form" action="/sortPrice/{{current_user.user_id}}">
@@ -484,6 +486,16 @@
       </div>
     </div>
     <div class="body-wrapper">
+      <div class="left-wrapper">
+        <div class="new-listing-btn-wrapper">
+          <div class="new-listing-btn">
+            <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
+            <div class="new-listing-btn-text">New Listing</div>
+          </div>
+        </div>
+        <div class="messenger-text">Messenger</div>
+      </div>
+      <!--
       <div class="new-listing-btn-wrapper">
           <form class="login-form" method="POST" action="/accountCreator">
             <div class="form-title">Title</div>
@@ -497,6 +509,7 @@
             <input class="login-submit-btn" type="submit" value="New Listing">
         </form>
       </div>
+      -->
       <div class="item-pane-wrapper">
           {% for item in items %}
           <div class="item-feature-wrapper">
@@ -548,7 +561,7 @@
       </div>
       <div class="login-form-wrapper">
         <div class="form-title">Email</div>
-        <form class="login-form" method="POST" action="/loggedIn">
+        <form class="login-form" method="POST" action="/logInWInput">
           <input class="login-input" placeholder="you@columbia.edu" type="text" name="name">
           <input class="login-submit-btn" type="submit" value="Login">
         </form>
