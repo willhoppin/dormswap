@@ -15,7 +15,7 @@
     .main-wrapper {
       display: flex;
       flex-direction: column-reverse;
-    }github
+    }
 
     .top-wrapper {
       box-shadow: 0px 0px 15px 0px #9BCBEB;
@@ -230,7 +230,7 @@
     }
 
     .item-feature-wrapper {
-      height: 170px;
+      height: 220px;
       width: 170px;
       border-radius: 10px;
       margin: 0 20px 20px 0;
@@ -278,6 +278,17 @@
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
+    }
+
+    .item-feature-desc-text {
+      font-weight: 500;
+      font-size: 10px;
+      color: #8f8f8f;
+      margin: 5px 10px 5px 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;  
+      overflow: hidden;
     }
 
     .item-feature-bottom-data-wrapper {
@@ -484,6 +495,7 @@
             </div>
             <div class="item-feature-bottom">
               <div class="item-feature-bottom-text">{{item.item_name}}</div>
+              <div class="item-feature-desc-text">{{item.description}}</div>
               <div class="item-feature-bottom-data-wrapper">
                 <div class="item-feature-bottom-money-wrapper">
                   <img class="item-feature-bottom-icon" src="{{url_for('static', filename='whitemoney.png')}}" align="middle" />
