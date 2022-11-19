@@ -160,31 +160,20 @@ def accountCreator():
     user_idCursor.close()
     userid = str(int(highest_id) + 1)
     college = "Columbia University"
-    
-    sql = "INSERT INTO Users (user_id,user_name,email,college,photo,address,venmo) VALUES (%s,%s,%s,%s,%s,%s,%s)"
-    val = (
-      userid,
-      username,
-      email,
-      college,
-      photo,
-      address,
-      venmo
-    )
+    createdat = date.today()
     
     #POST this new user
-    current_user = g.conn.execute(sql, val)
+    g.conn.execute("INSERT INTO Users VALUES ((%s), (%s), (%s), (%s), (%s), (%s), (%s), (%s), 0);",userid,username,email,college,createdat,photo,address,venmo)
+    
+    #GET this user
+    nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", userid)
+    for result in nameCursor:
+      current_user = result
+    nameCursor.close()
 
-    #pull items if successful
-    items = []
-    cursor = g.conn.execute("SELECT * FROM Items")
-    for result in cursor:
-      items.append(result)
-    cursor.close()
-    context = dict(items = items)
-
-    return render_template("index.html", **context, current_user=current_user, user_logged_in=True)
-
+    redirectURL = '/loggedIn/' + current_user.user_id
+    return redirect(redirectURL)
+    
 @app.route('/logInWInput', methods=['POST'])
 def logInWInput():
     name = request.form['name']

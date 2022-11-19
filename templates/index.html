@@ -233,7 +233,7 @@
     }
 
     .item-feature-wrapper {
-      height: 220px;
+      height: 170px;
       width: 170px;
       border-radius: 10px;
       margin: 0 20px 20px 0;
@@ -345,6 +345,8 @@
 
     .search-bar-input {
       width: 500px;
+      border: none;
+      padding: 10px;
     }
 
     .login-wrapper {
@@ -442,7 +444,7 @@
           </div>
         </div>
         <form class="top-bar-form" action="/sortSearch/{{current_user.user_id}}" method="POST">
-            <input class="login-input search-bar-input" placeholder="Search for used items for sale on Columbia University's campus..." type="text" name="name">
+            <input class="login-input search-bar-input" placeholder="🔎 Search for used items for sale on Columbia University's campus..." type="text" name="name">
         </form>
         <div class="filters-wrapper">
           <div class="filters-text">Sort By:</div>
@@ -519,7 +521,9 @@
             </div>
             <div class="item-feature-bottom">
               <div class="item-feature-bottom-text">{{item.item_name}}</div>
+              <!--
               <div class="item-feature-desc-text">{{item.description}}</div>
+              -->
               <div class="item-feature-bottom-data-wrapper">
                 <div class="item-feature-bottom-money-wrapper">
                   <img class="item-feature-bottom-icon" src="{{url_for('static', filename='whitemoney.png')}}" align="middle" />
@@ -534,12 +538,14 @@
                   <div class="item-feature-bottom-text-standard">{{item.likes}}</div>
                 </div>
               </div>
+              <!--
               <form class="top-bar-form email-time" action="/emailUser/{{current_user.user_id}}">
                 <button class="filter-button">
                   <img class="filter-button-icon" src="{{url_for('static', filename='email.png')}}" align="middle" />
                   <div class="filter-button-text">Email User</div>
                 </button>
               </form>
+              -->
             </div>
           </div>
           {% endfor %}
