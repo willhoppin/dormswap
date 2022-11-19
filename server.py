@@ -163,31 +163,43 @@ def index():
 def another():
   return render_template("another.html")
 
-@app.route('/sortLikes')
-def sortLikes():
-  items = []
+@app.route('/sortLikes/<user_id>')
+def sortLikes(user_id):
+  nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
+  for result in nameCursor:
+    current_user = result
+  nameCursor.close()
+
   cursor = g.conn.execute("SELECT * FROM Items ORDER BY likes DESC")
   items = []
   for result in cursor:
     items.append(result)
   cursor.close()
   context = dict(items = items)
-  return render_template("index.html", **context)
+  return render_template("index.html", **context, current_user=current_user, user_logged_in=True)
 
-@app.route('/sortViews')
-def sortViews():
-  items = []
+@app.route('/sortViews/<user_id>')
+def sortViews(user_id):
+  nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
+  for result in nameCursor:
+    current_user = result
+  nameCursor.close()
+
   cursor = g.conn.execute("SELECT * FROM Items ORDER BY views DESC")
   items = []
   for result in cursor:
     items.append(result)
   cursor.close()
   context = dict(items = items)
-  return render_template("index.html", **context)
+  return render_template("index.html", **context, current_user=current_user, user_logged_in=True)
 
-@app.route('/sortReviews')
-def sortReviews():
-  items = []
+@app.route('/sortReviews/<user_id>')
+def sortReviews(user_id):
+  nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
+  for result in nameCursor:
+    current_user = result
+  nameCursor.close()
+
   #change the below SQL!
   cursor = g.conn.execute("SELECT * FROM Items ORDER BY reviews DESC")
   items = []
@@ -195,18 +207,40 @@ def sortReviews():
     items.append(result)
   cursor.close()
   context = dict(items = items)
-  return render_template("index.html", **context)
+  return render_template("index.html", **context, current_user=current_user, user_logged_in=True)
 
-@app.route('/sortPrice')
-def sortPrice():
+@app.route('/sortPrice/<user_id>')
+def sortPrice(user_id):
+  nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
+  for result in nameCursor:
+    current_user = result
+  nameCursor.close()
+
   items = []
   cursor = g.conn.execute("SELECT * FROM Items ORDER BY price DESC")
-  items = []
   for result in cursor:
     items.append(result)
   cursor.close()
   context = dict(items = items)
-  return render_template("index.html", **context)
+  return render_template("index.html", **context, current_user=current_user, user_logged_in=True)
+
+@app.route('/sortSearch/<user_id>', methods=['POST'])
+def sortSearch(user_id):
+  name = request.form['name']
+  namePercents = '%' + name + '%'
+
+  nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
+  for result in nameCursor:
+    current_user = result
+  nameCursor.close()
+
+  items = []
+  cursor = g.conn.execute("SELECT * FROM Items WHERE item_name LIKE (%s)", namePercents)
+  for result in cursor:
+    items.append(result)
+  cursor.close()
+  context = dict(items = items)
+  return render_template("index.html", **context, current_user=current_user, user_logged_in=True)
 
 
 @app.route('/loggedIn', methods=['POST'])
@@ -228,7 +262,6 @@ def loggedIn():
     #pull items if successful
     items = []
     cursor = g.conn.execute("SELECT * FROM Items")
-    items = []
     for result in cursor:
       items.append(result)
     cursor.close()

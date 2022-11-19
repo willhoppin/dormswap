@@ -20,8 +20,20 @@
     .top-wrapper {
       box-shadow: 0px 0px 15px 0px #9BCBEB;
       background: white;
-      position: fixed;
-      top: 0;
+      position: fixed !important;
+      top: 0 !important;
+      width: 100%;
+      justify-content: space-between;
+      display: flex;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .top-wrapper-attributes {
+      box-shadow: 0px 0px 15px 0px #9BCBEB;
+      background: white;
+      position: fixed !important;
+      top: 0 !important;
       width: 100%;
       justify-content: space-between;
       display: flex;
@@ -76,6 +88,9 @@
       color: #979797;
       font-size: 14px;
       padding: 5px 20px 5px 5px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
 
     .top-bar-form {
@@ -99,6 +114,7 @@
     .filters-text {
       font-weight: 500;
       margin-right: 10px;
+      margin-left: 20px;
     }
 
     .filter-button-icon {
@@ -302,6 +318,10 @@
       padding: 3px;
     }
 
+    .search-bar-input {
+      width: 500px;
+    }
+
     .login-wrapper {
       display: flex;
       align-items: center;
@@ -311,12 +331,57 @@
       background: url({{ url_for('static', filename='backgroundarrows.png') }});
     }
 
+    .login-top-row-wrapper {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0 20px 30px;
+      align-items: center;
+    }
+
     .login-main-box {
-      width: 400px;
-      height: 500px;
+      width: 600px;
       box-shadow: 0px 0px 15px 0px #9BCBEB;
       border-radius: 15px;
       background: white;
+    }
+
+    .login-form-wrapper {
+      margin: 0 32px;
+    }
+
+    .form-title {
+      color: #003865;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .login-submit-btn {
+      border: none;
+      background: #003865;
+      color: white;
+      font-weight: 500;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      height: 30px;
+      font-family: Poppins;
+      transition: 0.2s ease-in-out;
+    }
+
+    .login-submit-btn:hover {
+      opacity: 0.8;
+    }
+
+    .login-input {
+      margin: 10px 0;
+      height: 30px;
+      background: rgb(236, 236, 236);
+      border-radius: 5px;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
     }
   </style>
 
@@ -325,7 +390,7 @@
 
   {% if user_logged_in %}
   <div class="main-wrapper">
-    <div class="top-wrapper">
+    <div class="top-wrapper top-wrapper-attributes">
       <div class="top-wrapper-left">
         <div class="logo-text-wrapper">
           <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
@@ -333,34 +398,30 @@
             DormSwap
           </div>
         </div>
-        <div class="search-wrapper">
-          <img class="search-icon" src="{{url_for('static', filename='search.png')}}" align="middle" />
-          <!--Make this a form?-->
-          <div class="search-text">
-            Search for used items for sale on Columbia University's campus...
-          </div>
-        </div>
+        <form class="top-bar-form" action="/sortSearch/{{current_user.user_id}}" method="POST">
+            <input class="login-input search-bar-input" placeholder="Search for used items for sale on Columbia University's campus..." type="text" name="name">
+        </form>
         <div class="filters-wrapper">
           <div class="filters-text">Sort By:</div>
-          <form class="top-bar-form" action="/sortLikes">
+          <form class="top-bar-form" action="/sortLikes/{{current_user.user_id}}">
             <button class="filter-button">
               <img class="filter-button-icon" src="{{url_for('static', filename='heart.png')}}" align="middle" />
               <div class="filter-button-text">Likes</div>
             </button>
           </form>
-          <form class="top-bar-form" action="/sortViews">
+          <form class="top-bar-form" action="/sortViews/{{current_user.user_id}}">
             <button class="filter-button">
               <img class="filter-button-icon" src="{{url_for('static', filename='eye.png')}}" align="middle" />
               <div class="filter-button-text">Views</div>
             </button>
           </form>
-          <form class="top-bar-form" action="/sortReviews">
+          <form class="top-bar-form" action="/sortReviews/{{current_user.user_id}}">
             <button class="filter-button">
               <img class="filter-button-icon" src="{{url_for('static', filename='star.png')}}" align="middle" />
               <div class="filter-button-text">Reviews</div>
             </button>
           </form>
-          <form class="top-bar-form" action="/sortPrice">
+          <form class="top-bar-form" action="/sortPrice/{{current_user.user_id}}">
             <button class="filter-button">
               <img class="filter-button-icon" src="{{url_for('static', filename='money.png')}}" align="middle" />
               <div class="filter-button-text">Price</div>
@@ -419,7 +480,7 @@
   {% else %}
   <div class="login-wrapper">
     <div class="login-main-box">
-      <div class="top-row-wrapper">
+      <div class="login-top-row-wrapper">
         <div class="logo-text">Login</div>
         <div class="logo-text-wrapper">
           <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
@@ -428,9 +489,13 @@
           </div>
         </div>
       </div>
-      <form class="login-form" method="POST" action="/loggedIn">
-        <p>Enter your email to login: <input type="text" name="name"><input type="submit" value="Add"></p>
-      </form>
+      <div class="login-form-wrapper">
+        <div class="form-title">Email</div>
+        <form class="login-form" method="POST" action="/loggedIn">
+          <input class="login-input" placeholder="you@columbia.edu" type="text" name="name">
+          <input class="login-submit-btn" type="submit" value="Login">
+        </form>
+      </div>
     </div>
   </div>  
 
