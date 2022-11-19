@@ -247,6 +247,15 @@ def sortSearch(user_id):
   context = dict(items = items)
   return render_template("index.html", **context, current_user=current_user, user_logged_in=True)
 
+@app.route('/emailUser/<user_id>')
+def emailUser(user_id):
+  nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
+  for result in nameCursor:
+    target_user = result
+  nameCursor.close()
+  mailto_link = 'mailto:' + target_user.email;
+  return redirect(mailto_link)
+
 @app.route('/accountCreator', methods=['POST'])
 def accountCreator():
     
