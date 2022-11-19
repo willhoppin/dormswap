@@ -406,100 +406,10 @@
 
 <body> 
 
-  {% if user_logged_in %}
-  <div class="main-wrapper">
-    <div class="top-wrapper top-wrapper-attributes">
-      <div class="top-wrapper-left">
-        <div class="logo-text-wrapper">
-          <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
-          <div class="logo-text">
-            DormSwap
-          </div>
-        </div>
-        <form class="top-bar-form" action="/sortSearch/{{current_user.user_id}}" method="POST">
-            <input class="login-input search-bar-input" placeholder="Search for used items for sale on Columbia University's campus..." type="text" name="name">
-        </form>
-        <div class="filters-wrapper">
-          <div class="filters-text">Sort By:</div>
-          <form class="top-bar-form" action="/sortLikes/{{current_user.user_id}}">
-            <button class="filter-button">
-              <img class="filter-button-icon" src="{{url_for('static', filename='heart.png')}}" align="middle" />
-              <div class="filter-button-text">Likes</div>
-            </button>
-          </form>
-          <form class="top-bar-form" action="/sortViews/{{current_user.user_id}}">
-            <button class="filter-button">
-              <img class="filter-button-icon" src="{{url_for('static', filename='eye.png')}}" align="middle" />
-              <div class="filter-button-text">Views</div>
-            </button>
-          </form>
-          <form class="top-bar-form" action="/sortReviews/{{current_user.user_id}}">
-            <button class="filter-button">
-              <img class="filter-button-icon" src="{{url_for('static', filename='star.png')}}" align="middle" />
-              <div class="filter-button-text">Reviews</div>
-            </button>
-          </form>
-          <form class="top-bar-form" action="/sortPrice/{{current_user.user_id}}">
-            <button class="filter-button">
-              <img class="filter-button-icon" src="{{url_for('static', filename='money.png')}}" align="middle" />
-              <div class="filter-button-text">Price</div>
-            </button>
-          </form>
-        </div>
-      </div>
-      <div class="top-wrapper-right">
-        <div class="profile-menu-wrapper">
-          <img class="profile-menu-photo" src="{{current_user.photo}}" align="middle" />
-          <div class="profile-menu-text">{{current_user.user_name}}</div>
-          <img class="profile-menu-caret" src="{{url_for('static', filename='caret.png')}}" align="middle" />
-        </div>
-      </div>
-    </div>
-    <div class="body-wrapper">
-      <div class="left-wrapper">
-        <div class="messenger-text">Messenger</div>
-      </div>
-      <div class="new-listing-btn-wrapper">
-        <div class="new-listing-btn">
-          <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
-          <div class="new-listing-btn-text">New Listing</div>
-        </div>
-      </div>
-      <div class="item-pane-wrapper">
-          {% for item in items %}
-          <div class="item-feature-wrapper">
-            <div class="item-feature-top">
-              <img class="item-feature-photo" src="{{item.item_photo}}" align="middle" />
-              <img class="item-feature-white-heart" src="{{url_for('static', filename='whiteheart.png')}}" align="middle" />
-            </div>
-            <div class="item-feature-bottom">
-              <div class="item-feature-bottom-text">{{item.item_name}}</div>
-              <div class="item-feature-bottom-data-wrapper">
-                <div class="item-feature-bottom-money-wrapper">
-                  <img class="item-feature-bottom-icon" src="{{url_for('static', filename='whitemoney.png')}}" align="middle" />
-                  <div class="item-feature-bottom-text-white">{{item.price}}</div>
-                </div>
-                <div class="item-feature-bottom-standard-wrapper">
-                  <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayeye.png')}}" align="middle" />
-                  <div class="item-feature-bottom-text-standard">{{item.views}}</div>
-                </div>
-                <div class="item-feature-bottom-standard-wrapper">
-                  <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayheart.png')}}" align="middle" />
-                  <div class="item-feature-bottom-text-standard">{{item.likes}}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-      </div>
-    </div>
-  </div>
-
-  {% else %}
   <div class="login-wrapper">
     <div class="login-main-box">
       <div class="login-top-row-wrapper">
-        <div class="logo-text">Login</div>
+        <div class="logo-text">Create Account</div>
         <div class="logo-text-wrapper">
           <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
           <div class="logo-text">
@@ -508,19 +418,25 @@
         </div>
       </div>
       <div class="login-form-wrapper">
-        <div class="form-title">Email</div>
-        <form class="login-form" method="POST" action="/loggedIn">
-          <input class="login-input" placeholder="you@columbia.edu" type="text" name="name">
-          <input class="login-submit-btn" type="submit" value="Login">
+        <form class="login-form" method="POST" action="/accountCreator">
+            <div class="form-title">Username</div>
+            <input class="login-input" placeholder="ilovedormswap" type="text" name="username">
+            <div class="form-title">Email</div>
+            <input class="login-input" placeholder="you@columbia.edu" type="text" name="email">
+            <div class="form-title">Physical Address</div>
+            <input class="login-input" placeholder="123 Morningside Dr." type="text" name="address">
+            <div class="form-title">Venmo @</div>
+            <input class="login-input" placeholder="dormswaplover123" type="text" name="venmo">
+            <div class="form-title">Photo URL</div>
+            <input class="login-input" placeholder="images.you.com/you" type="text" name="photo">
+            <input class="login-submit-btn" type="submit" value="Create Account">
         </form>
-        <form action="/createAccount">
-          <input class="create-account-btn" type="submit" value="Not a user yet? Create Account">
+        <form action="/logIn">
+          <input class="create-account-btn" type="submit" value="Already have an account? Login">
         </form>
       </div>
     </div>
   </div>
-
-  {% endif %}
 
 </body>
 

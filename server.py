@@ -9,6 +9,7 @@ A debugger such as "pdb" may be helpful for debugging.
 Read about it online.
 """
 import logging
+from datetime import date
 import os
   # accessible as a variable in index.html:
 from sqlalchemy import *
@@ -159,9 +160,14 @@ def index():
 # Notice that the function name is another() rather than index()
 # The functions for each app.route need to have different names
 #
-@app.route('/another')
-def another():
-  return render_template("another.html")
+
+@app.route('/createAccount')
+def createAccount():
+  return render_template("createAccount.html")
+
+@app.route('/logIn')
+def logIn():
+  return redirect("/")
 
 @app.route('/sortLikes/<user_id>')
 def sortLikes(user_id):
@@ -242,6 +248,58 @@ def sortSearch(user_id):
   context = dict(items = items)
   return render_template("index.html", **context, current_user=current_user, user_logged_in=True)
 
+@app.route('/accountCreator', methods=['POST'])
+def accountCreator():
+    
+    username = request.form['username']
+    
+    email = request.form['email']
+    address = request.form['address']
+    venmo = request.form['venmo']
+    photo = request.form['photo']
+
+    user_idCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (SELECT MAX(user_id) FROM Users)")
+    for result in user_idCursor:
+      highest_id = result.user_id
+    user_idCursor.close()
+
+    
+
+    userid = str(int(highest_id) + 1)
+    college = "Columbia University"
+    today = date.today()
+    print("Today's date:", today)
+    createdat = today
+    fullUserStr = '(' + userid + ',' + username + ',' + email + ',' + college + ',' + createdat + ',' + photo + ',' + address + ',' + venmo + ',1' + ')' 
+    goodstr = '\'will@hoppin.net\''
+    
+
+    #POST this new user
+    g.conn.execute('INSERT INTO Users (email) VALUES (%s)', goodstr)
+    #g.conn.execute('INSERT INTO Users (email) VALUES (\'will@hoppin.net\')')
+    
+    '''
+    #GET the user
+    nameCursor = g.conn.execute("SELECT * FROM Users WHERE email = (%s)", email)
+    current_user = []
+    for result in nameCursor:
+      current_user = result
+    nameCursor.close()
+
+    #pull items if successful
+    
+    '''
+
+    items = []
+    cursor = g.conn.execute("SELECT * FROM Items")
+    for result in cursor:
+      items.append(result)
+    cursor.close()
+    context = dict(items = items)
+
+    current_user = [];
+
+    return render_template("index.html", **context, current_user=current_user, user_logged_in=False)
 
 @app.route('/loggedIn', methods=['POST'])
 def loggedIn():
