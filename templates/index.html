@@ -46,6 +46,11 @@
       align-items: center;
     }
 
+    .top-wrapper-right {
+      display: flex;
+      align-items: center;
+    }
+
     .left-wrapper {
       box-shadow: 0px 0px 15px 0px #9BCBEB;
       width: 210px;
@@ -451,8 +456,13 @@
         <div class="profile-menu-wrapper">
           <img class="profile-menu-photo" src="{{current_user.photo}}" align="middle" />
           <div class="profile-menu-text">{{current_user.user_name}}</div>
-          <img class="profile-menu-caret" src="{{url_for('static', filename='caret.png')}}" align="middle" />
         </div>
+        <form class="top-bar-form" action="/logIn">
+          <button class="filter-button">
+            <img class="filter-button-icon" src="{{url_for('static', filename='logout.png')}}" align="middle" />
+            <div class="filter-button-text">Logout</div>
+          </button>
+        </form>
       </div>
     </div>
     <div class="body-wrapper">
