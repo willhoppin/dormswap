@@ -80,6 +80,21 @@ def createAccount():
     return "Grabbed the file " + img_filename + " and uploaded to " + image['link']
   return render_template("createAccount.html", form=form)
 
+@app.route('/newListing', methods=['GET','POST'])
+def newListing():
+  form = UploadFileForm()
+  if form.validate_on_submit():
+    uploaded_img = request.files['file']
+    img_filename = secure_filename(uploaded_img.filename)
+    uploaded_img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
+    session['uploaded_img_file_path'] = os.path.join(app.config['UPLOAD_FOLDER'], img_filename)
+    img_file_path = session.get('uploaded_img_file_path', None)
+    image = client.upload_from_path(img_file_path, config=imgurConfig, anon=False) #upload file to Imgur
+    os.remove(img_file_path)
+    
+    return "Grabbed the file " + img_filename + " and uploaded to " + image['link']
+  return render_template("newListing.html", form=form)
+
 @app.route('/logIn')
 def logIn():
   return redirect("/")
@@ -144,7 +159,7 @@ def sortReviews(user_id):
     current_user = result
   nameCursor.close()
 
-  cursor = g.conn.execute("SELECT * FROM Items i, Deal d, Users u where i.item_id = d.item_id AND d.seller_id = u.user_id ORDER BY i.views DESC")
+  cursor = g.conn.execute("SELECT DISTINCT * FROM items i, deal d, users u, his_recorded h WHERE i.item_id = d.item_id AND d.seller_id = u.user_id AND u.user_id = h.user_id ORDER BY h.grade DESC")
   items = []
   for result in cursor:
     items.append(result)
@@ -220,6 +235,21 @@ def accountCreator():
     nameCursor.close()
 
     redirectURL = '/loggedIn/' + current_user.user_id
+    return redirect(redirectURL)
+
+@app.route('/listingCreator', methods=['POST'])
+def listingCreator():
+    
+    title = request.form['title']
+    description = request.form['description']
+    price = request.form['price']
+    photo = request.form['photo']
+    
+    #POST this new item
+    g.conn.execute("INSERT INTO Items VALUES ((%s), (%s), (%s), (%s), 0);",title,description,price,photo)
+
+    #redirectURL = '/loggedIn/' + current_user.user_id
+    redirectURL = '/'
     return redirect(redirectURL)
 
 @app.route('/logInWInput', methods=['POST'])

@@ -411,7 +411,7 @@
   <div class="login-wrapper">
     <div class="login-main-box">
       <div class="login-top-row-wrapper">
-        <div class="logo-text">Create Account</div>
+        <div class="logo-text">List New Item</div>
         <div class="logo-text-wrapper">
           <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
           <div class="logo-text">
@@ -421,17 +421,15 @@
       </div>
       <div class="login-form-wrapper">
         <form class="login-form" method="POST" action="/accountCreator">
-            <div class="form-title">Username</div>
-            <input class="login-input" placeholder="ilovedormswap" type="text" name="username">
-            <div class="form-title">Email</div>
-            <input class="login-input" placeholder="you@columbia.edu" type="text" name="email">
-            <div class="form-title">Physical Address (Not Shared Publically)</div>
-            <input class="login-input" placeholder="123 Morningside Dr." type="text" name="address">
-            <div class="form-title">Venmo @</div>
-            <input class="login-input" placeholder="dormswaplover123" type="text" name="venmo">
+            <div class="form-title">Title</div>
+            <input class="login-input" placeholder="ilovedormswap" type="text" name="title">
+            <div class="form-title">Description</div>
+            <input class="login-input" placeholder="you@columbia.edu" type="text" name="description">
+            <div class="form-title">Asking Price</div>
+            <input class="login-input" placeholder="123 Morningside Dr." type="text" name="price">
             <div class="form-title">Photo URL</div>
             <input class="login-input" placeholder="you.com/you.png" type="text" name="photo">
-            <input class="login-submit-btn" type="submit" value="Create Account">
+            <input class="login-submit-btn" type="submit" value="Create Listing">
         </form>
         <!--
         <form method='POST' enctype='multipart/form-data'>
@@ -440,9 +438,6 @@
           {{form.submit()}}
         </form>
         -->
-        <form action="/logIn">
-          <input class="create-account-btn" type="submit" value="Already have an account? Login">
-        </form>
       </div>
     </div>
   </div>

@@ -191,6 +191,11 @@
     }
 
     .new-listing-btn-wrapper {
+      padding-top: 110px;
+      position: fixed;
+    }
+
+    .messenger-btn-wrapper {
       padding-top: 60px;
       position: fixed;
     }
@@ -207,6 +212,23 @@
       width: 175px;
     }
 
+    .messenger-btn {
+      display: flex;
+      align-items: center;
+      background: #9BCBEB;
+      border-radius: 7px;
+      margin: 10px;
+      justify-content: center;
+      padding: 8px;
+      transition: 0.2s ease-in-out;
+      width: 175px;
+    }
+
+    .messenger-btn:hover {
+      cursor: pointer;
+      background: #b0d7f1;
+    }
+
     .new-listing-btn:hover {
       cursor: pointer;
       background: #2d6897;
@@ -218,7 +240,20 @@
       font-size: 16px;
     }
 
+    .messenger-btn-text {
+      color: white;
+      font-weight: 500;
+      font-size: 16px;
+    }
+
     .new-listing-btn-icon {
+      max-height: 15px;
+      max-width: 15px;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .messenger-btn-icon {
       max-height: 15px;
       max-width: 15px;
       object-fit: cover;
@@ -286,6 +321,8 @@
       margin-top: 10px;
       cursor: pointer;
       transition: 0.2s ease-in-out;
+      -webkit-filter: drop-shadow(0px 0px 15px #9BCBEB);
+      filter: drop-shadow(0px 0px 15px #9BCBEB);
     }
 
     .item-feature-white-heart:hover {
@@ -505,15 +542,19 @@
       </div>
     </div>
     <div class="body-wrapper">
-      <div class="left-wrapper">
-        <div class="new-listing-btn-wrapper">
-          <div class="new-listing-btn">
-            <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
-            <div class="new-listing-btn-text">New Listing</div>
-          </div>
+      <form class="new-listing-btn-wrapper" action="/newListing">
+        <button class="new-listing-btn">
+          <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
+          <div class="new-listing-btn-text">New Listing</div>
+        </button>
+      </form>
+      <div class="messenger-btn-wrapper">
+        <div class="messenger-btn">
+          <img class="messenger-btn-icon" src="{{url_for('static', filename='message.png')}}" align="middle" />
+          <div class="messenger-btn-text">Messenger</div>
         </div>
-        <div class="messenger-text">Messenger</div>
       </div>
+      <div class="left-wrapper"></div>
       <!--
       <div class="new-listing-btn-wrapper">
           <form class="login-form" method="POST" action="/accountCreator">
