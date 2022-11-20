@@ -1,4 +1,5 @@
 import logging
+import math
 from flask_wtf import FlaskForm
 from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
@@ -120,7 +121,14 @@ def viewItem(user_id, item_id):
     current_seller = result
   sellerCursor.close()
 
-  return render_template("viewItem.html", current_user=current_user, user_logged_in=True, current_item=current_item, current_seller=current_seller)
+  seller_rank = 0
+
+  historyCursor = g.conn.execute("SELECT * FROM his_recorded WHERE user_id = (%s)", current_item.seller_id)
+  for result in historyCursor:
+    seller_rank = math.floor(int(result.grade))
+  sellerCursor.close()
+
+  return render_template("viewItem.html", current_user=current_user, user_logged_in=True, current_item=current_item, current_seller=current_seller, seller_rank=seller_rank)
 
 @app.route('/sortLikes/<user_id>')
 def sortLikes(user_id):
@@ -159,7 +167,7 @@ def sortReviews(user_id):
     current_user = result
   nameCursor.close()
 
-  cursor = g.conn.execute("SELECT DISTINCT * FROM items i, deal d, users u, his_recorded h WHERE i.item_id = d.item_id AND d.seller_id = u.user_id AND u.user_id = h.user_id ORDER BY h.grade DESC")
+  cursor = g.conn.execute("SELECT DISTINCT * FROM Items i, his_recorded h WHERE i.seller_id = h.user_id ORDER BY h.grade DESC")
   items = []
   for result in cursor:
     items.append(result)

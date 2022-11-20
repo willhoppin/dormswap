@@ -179,7 +179,7 @@
                         <div class="main-title">{{current_item.item_name}}</div>
                         <div class="profile-wrapper">
                             <img class="profile-photo" src="{{current_seller.photo}}" align="middle" />
-                            <div class="profile-text">{{current_seller.user_name}}</div>
+                            <div class="profile-text">{{current_seller.user_name}}&nbsp{%for i in range(0, seller_rank)%} ⭐️{%endfor%}</div>
                         </div>
                     </div>
                     <div class="top-row-right-wrapper">
