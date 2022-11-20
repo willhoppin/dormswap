@@ -21,21 +21,19 @@
       .feature-box {
           background: white;
           border-radius: 15px;
-          height: 600px;
+          height: 625px;
           width: 600px;
           box-shadow: 0px 0px 20px 0px #9BCBEB;
-      }
-
-      .feature-box {
           display: flex;
           flex-direction: column;
+          justify-content: space-between;
           padding: 20px;
       }
 
       .top-row-wrapper {
           display: flex;
           justify-content: space-between;
-          margin-bottom: 20px;
+          margin-bottom: 15px;
       }
 
       .main-title {
@@ -60,7 +58,7 @@
       .profile-text {
           font-size: 14px;
           color:#003865;
-          margin-left: 5px;
+          margin-left: 8px;
       }
 
       .top-data-wrapper {
@@ -101,46 +99,122 @@
       .main-image {
           width: 500px;
           object-fit: cover;
-          height: 330px;
+          height: 300px;
           width: 600px;
           border-radius: 10px;
           box-shadow: 0px 0px 10px 0px #9BCBEB;
-          margin-bottom: 20px;
+          margin-bottom: 15px;
       }
 
       .item-description {
-          font-size: 16px;
+          font-size: 14px;
           color: #9B9B9B;
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;  
+          overflow: hidden;
+      }
+
+      .bottom-wrapper {
+          padding-top: 10px;
+          border-top: 1px solid #9B9B9B;
+      }
+
+      .message-field {
+          width: 465px;
+          margin-right: 10px;
+      }
+
+      .offer-field {
+          width: 125px;
+      }
+
+      .offer-fields-wrapper {
+          display: flex;
+      }
+
+      .offer-field-title {
+          font-weight: 500;
+          color: #003865;
+          font-size: 15px;
+          margin-bottom: 3px;
+      }
+
+      .offer-field-input {
+          background: rgb(236, 236, 236);
+          font-family: Poppins;
+          border: none;
+          padding: 10px;
+          height: 30px;
+          border-radius: 5px;
+      }
+
+      .offer-submit-btn {
+          background: #003865;
+          color: white;
+          font-weight: 500;
+          text-align: center;
+          border: none;
+          font-family: Poppins;
+          width: 100%;
+          margin-top: 10px;
+          border-radius: 5px;
+          height: 30px;
+          cursor: pointer;
+          transition: 0.2s ease-in-out;
+          margin-bottom: -10px;
+      }
+
+      .offer-submit-btn:hover {
+          opacity: 0.8;
+      }
       }
   </style>
 
 <body> 
     <div class="main-wrapper">
         <div class="feature-box">
-            <div class="top-row-wrapper">
-                <div class="top-row-left-wrapper">
-                    <div class="main-title">{{current_item.item_name}}</div>
-                    <div class="profile-wrapper">
-                        <img class="profile-photo" src="{{current_seller.photo}}" align="middle" />
-                        <div class="profile-text">{{current_seller.user_name}}</div>
-                    </div>
-                </div>
-                <div class="top-row-right-wrapper">
-                    <div class="top-data-wrapper">
-                        <div class="data-wrapper">
-                            <img class="data-icon" src="{{url_for('static', filename='grayeye.png')}}" align="middle" />
-                            <div class="data-text">{{current_item.views}}</div>
-                        </div>
-                        <div class="data-wrapper">
-                            <img class="data-icon" src="{{url_for('static', filename='grayheart.png')}}" align="middle" />
-                            <div class="data-text">{{current_item.likes}}</div>
+            <div>
+                <div class="top-row-wrapper">
+                    <div class="top-row-left-wrapper">
+                        <div class="main-title">{{current_item.item_name}}</div>
+                        <div class="profile-wrapper">
+                            <img class="profile-photo" src="{{current_seller.photo}}" align="middle" />
+                            <div class="profile-text">{{current_seller.user_name}}</div>
                         </div>
                     </div>
-                    <div class="asking-text">Asking: ${{current_item.price}}</div>
+                    <div class="top-row-right-wrapper">
+                        <div class="top-data-wrapper">
+                            <div class="data-wrapper">
+                                <img class="data-icon" src="{{url_for('static', filename='grayeye.png')}}" align="middle" />
+                                <div class="data-text">{{current_item.views}}</div>
+                            </div>
+                            <div class="data-wrapper">
+                                <img class="data-icon" src="{{url_for('static', filename='grayheart.png')}}" align="middle" />
+                                <div class="data-text">{{current_item.likes}}</div>
+                            </div>
+                        </div>
+                        <div class="asking-text">Asking: ${{current_item.price}}</div>
+                    </div>
                 </div>
+                <img class="main-image" src="{{current_item.item_photo}}" align="middle" />
+                <div class="item-description">{{current_item.description}}</div>
             </div>
-            <img class="main-image" src="{{current_item.item_photo}}" align="middle" />
-            <div class="item-description">{{current_item.description}}</div>
+            <div class="bottom-wrapper">
+                <form class="offer-form" method="POST" action="/offerMaker/{{current_user.user_id}}/{{current_item.item_id}}">
+                    <div class="offer-fields-wrapper">
+                        <div class="offer-field-wrapper">
+                            <div class="offer-field-title">Message:</div>
+                            <input class="offer-field-input message-field" placeholder="Gimme this!" type="text" name="message">
+                        </div>
+                        <div class="offer-field-wrapper">
+                            <div class="offer-field-title">Offer (in USD):</div>
+                            <input class="offer-field-input offer-field" placeholder="${{current_item.price}}" type="text" name="message">
+                        </div>
+                    </div>
+                    <input class="offer-submit-btn" type="submit" value="Send">
+                </form>
+            </div>
         </div>
     </div>
 </body>
