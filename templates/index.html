@@ -46,6 +46,14 @@
       align-items: center;
     }
 
+    .email-subtext {
+      font-style: italic;
+      color: #979797;
+      font-size: 12px;
+      margin-top: -10px;
+      margin-bottom: 15px;
+    }
+
     .top-wrapper-right {
       display: flex;
       align-items: center;
@@ -429,6 +437,8 @@
       height: 30px;
       background: rgb(236, 236, 236);
       border-radius: 5px;
+      border: none;
+      padding: 10px;
     }
 
     .login-form {
@@ -575,11 +585,14 @@
         </div>
       </div>
       <div class="login-form-wrapper">
-        <div class="form-title">Email</div>
         <form class="login-form" method="POST" action="/logInWInput">
-          <input class="login-input" placeholder="you@columbia.edu" type="text" name="name">
+          <div class="form-title">Username</div>
+          <input class="login-input" placeholder="you123" type="text" name="username">
+          <div class="form-title">Email</div>
+          <input class="login-input" placeholder="you@columbia.edu" type="text" name="email">
           <input class="login-submit-btn" type="submit" value="Login">
         </form>
+        <div class="email-subtext">Worried about security? DormSwap was made by college students - chill out, brutha!</div>
         <form action="/createAccount">
           <input class="create-account-btn" type="submit" value="Not a user yet? Create Account">
         </form>

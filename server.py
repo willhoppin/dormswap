@@ -84,6 +84,10 @@ def createAccount():
 def logIn():
   return redirect("/")
 
+@app.route('/logInFailed')
+def logInFailed():
+  return render_template("logInFailed.html")
+
 @app.route('/viewItem/<user_id>/<item_id>')
 def viewItem(user_id, item_id):
   nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
@@ -174,7 +178,7 @@ def sortSearch(user_id):
   nameCursor.close()
 
   items = []
-  cursor = g.conn.execute("SELECT * FROM Items WHERE item_name LIKE (%s)", namePercents)
+  cursor = g.conn.execute("SELECT * FROM Items WHERE UPPER(item_name) LIKE UPPER((%s))", namePercents)
   for result in cursor:
     items.append(result)
   cursor.close()
@@ -220,8 +224,10 @@ def accountCreator():
 
 @app.route('/logInWInput', methods=['POST'])
 def logInWInput():
-    name = request.form['name']
-    nameCursor = g.conn.execute("SELECT * FROM Users WHERE email = (%s)", name)
+    username = request.form['username']
+    email = request.form['email']
+
+    nameCursor = g.conn.execute("SELECT * FROM Users WHERE email = (%s)", email)
     count = 0
     current_user = []
     for result in nameCursor:
@@ -229,12 +235,12 @@ def logInWInput():
       current_user = result
     nameCursor.close()
 
-    if (count == 1):
+    if ((count == 1) and (username == current_user.user_name)):
       redirectURL = '/loggedIn/' + current_user.user_id
       return redirect(redirectURL)
     else:
       #insert message about user not being able to log in
-      return redirect('/')
+      return redirect('/logInFailed')
 
 @app.route('/loggedIn/<user_id>')
 def loggedIn(user_id):
