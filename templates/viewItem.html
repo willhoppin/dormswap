@@ -4,13 +4,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300,500,700&display=swap" rel="stylesheet" />
   </head>
   <style>
-    
+      body{
+          margin: 0;
+      }
+      .main-wrapper {
+          background: url({{ url_for('static', filename='backgroundarrows.png') }});;
+          height: 100vh;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+
+      .feature-box {
+          background: white;
+          border-radius: 15px;
+          height: 550px;
+          width: 600px;
+          box-shadow: 0px 0px 20px 0px #9BCBEB;
+          
+      }
   </style>
 
 <body> 
-    <div>Current User: {{current_user.user_name}}</div>
-    <div>Current Seller: {{current_seller.user_name}}</div>
-    <div>Current Item: {{current_item.item_name}}</div>
+    <div class="main-wrapper">
+        <div class="feature-box">
+            <div>Current User: {{current_user.user_name}}</div>
+            <div>Current Seller: {{current_seller.user_name}}</div>
+            <div>Current Item: {{current_item.item_name}}</div>
+        </div>
+    </div>
 </body>
 
 
