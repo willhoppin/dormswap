@@ -355,6 +355,10 @@
       font-weight: 500;
     }
 
+    .big-text {
+        height: 100px !important;
+    }
+
     .login-submit-btn {
       border: none;
       background: #003865;
@@ -397,6 +401,7 @@
       border-radius: 5px;
       border: none;
       padding: 10px;
+      font-family: Poppins;
     }
 
     .login-form {
@@ -422,13 +427,13 @@
       <div class="login-form-wrapper">
         <form class="login-form" method="POST" action="/listingCreator/{{user_id}}">
             <div class="form-title">Title</div>
-            <input class="login-input" placeholder="ilovedormswap" type="text" name="title">
+            <input class="login-input" placeholder="Thing" type="text" name="title">
             <div class="form-title">Description</div>
-            <input class="login-input" placeholder="you@columbia.edu" type="text" name="description">
+            <textarea class="login-input big-text" placeholder="This thing is great!" type="text" name="description"></textarea>
             <div class="form-title">Asking Price</div>
-            <input class="login-input" placeholder="123 Morningside Dr." type="text" name="price">
+            <input class="login-input" placeholder="$420" type="number" name="price">
             <div class="form-title">Photo URL</div>
-            <input class="login-input" placeholder="you.com/you.png" type="text" name="photo">
+            <input class="login-input" placeholder="thing.com/thing.png" type="text" name="photo">
             <input class="login-submit-btn" type="submit" value="Create Listing">
         </form>
         <!--

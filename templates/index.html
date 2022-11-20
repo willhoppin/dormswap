@@ -191,12 +191,12 @@
     }
 
     .new-listing-btn-wrapper {
-      padding-top: 110px;
+      padding-top: 60px;
       position: fixed;
     }
 
     .messenger-btn-wrapper {
-      padding-top: 60px;
+      padding-top: 110px;
       position: fixed;
     }
 
@@ -209,7 +209,8 @@
       justify-content: center;
       padding: 8px;
       transition: 0.2s ease-in-out;
-      width: 175px;
+      width: 190px;
+      border: none;
     }
 
     .messenger-btn {
@@ -238,6 +239,7 @@
       color: white;
       font-weight: 500;
       font-size: 16px;
+      font-family: Poppins;
     }
 
     .messenger-btn-text {
@@ -542,18 +544,18 @@
       </div>
     </div>
     <div class="body-wrapper">
-      <form class="new-listing-btn-wrapper" action="/newListing/{{current_user.user_id}}">
-        <button class="new-listing-btn">
-          <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
-          <div class="new-listing-btn-text">New Listing</div>
-        </button>
-      </form>
       <div class="messenger-btn-wrapper">
         <div class="messenger-btn">
           <img class="messenger-btn-icon" src="{{url_for('static', filename='message.png')}}" align="middle" />
           <div class="messenger-btn-text">Messenger</div>
         </div>
       </div>
+      <form class="new-listing-btn-wrapper" action="/newListing/{{current_user.user_id}}">
+        <button class="new-listing-btn">
+          <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
+          <div class="new-listing-btn-text">New Listing</div>
+        </button>
+      </form>
       <div class="left-wrapper"></div>
       <!--
       <div class="new-listing-btn-wrapper">
@@ -590,11 +592,23 @@
                   </div>
                   <div class="item-feature-bottom-standard-wrapper">
                     <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayeye.png')}}" align="middle" />
-                    <div class="item-feature-bottom-text-standard">{{item.views}}</div>
+                    <div class="item-feature-bottom-text-standard">
+                      {% if item.views %}
+                      {{item.views}}
+                      {% else %}
+                      0
+                      {% endif %}
+                    </div>
                   </div>
                   <div class="item-feature-bottom-standard-wrapper">
                     <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayheart.png')}}" align="middle" />
-                    <div class="item-feature-bottom-text-standard">{{item.likes}}</div>
+                    <div class="item-feature-bottom-text-standard">
+                      {% if item.likes %}
+                      {{item.likes}}
+                      {% else %}
+                      0
+                      {% endif %}
+                    </div>
                   </div>
                 </div>
                 <!--

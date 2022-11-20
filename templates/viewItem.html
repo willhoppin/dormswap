@@ -186,11 +186,23 @@
                         <div class="top-data-wrapper">
                             <div class="data-wrapper">
                                 <img class="data-icon" src="{{url_for('static', filename='grayeye.png')}}" align="middle" />
-                                <div class="data-text">{{current_item.views}}</div>
+                                <div class="data-text">
+                                    {% if current_item.views %}
+                                    {{current_item.views}}
+                                    {% else %}
+                                    0
+                                    {% endif %}
+                                </div>
                             </div>
                             <div class="data-wrapper">
                                 <img class="data-icon" src="{{url_for('static', filename='grayheart.png')}}" align="middle" />
-                                <div class="data-text">{{current_item.likes}}</div>
+                                <div class="data-text">
+                                    {% if current_item.likes %}
+                                    {{current_item.likes}}
+                                    {% else %}
+                                    0
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                         <div class="asking-text">Asking: ${{current_item.price}}</div>
@@ -208,7 +220,7 @@
                         </div>
                         <div class="offer-field-wrapper">
                             <div class="offer-field-title">Offer (in USD):</div>
-                            <input class="offer-field-input offer-field" placeholder="${{current_item.price}}" type="text" name="message">
+                            <input class="offer-field-input offer-field" placeholder="${{current_item.price}}" type="number" name="message">
                         </div>
                     </div>
                     <input class="offer-submit-btn" type="submit" value="Send">

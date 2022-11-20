@@ -222,11 +222,10 @@ def accountCreator():
       highest_id = result.user_id
     user_idCursor.close()
     userid = str(int(highest_id) + 1)
-    college = "Columbia University"
     createdat = date.today()
     
     #POST this new user
-    g.conn.execute("INSERT INTO Users VALUES ((%s), (%s), (%s), (%s), (%s), (%s), (%s), (%s), 0);",userid,username,email,college,createdat,photo,address,venmo)
+    g.conn.execute("INSERT INTO Users(user_id,user_name,email,created_at,photo,address,venmo,favorite) VALUES ((%s), (%s), (%s), (%s), (%s), (%s), (%s), 0);",userid,username,email,createdat,photo,address,venmo)
     
     #GET this user
     nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", userid)
@@ -242,11 +241,19 @@ def listingCreator(user_id):
     
     title = request.form['title']
     description = request.form['description']
-    price = request.form['price']
+    price = int(request.form['price'])
     photo = request.form['photo']
-    
+    seller_id = user_id
+
+    item_idCursor = g.conn.execute("SELECT * FROM Items WHERE item_id = (SELECT MAX(item_id) FROM Items)")
+    for result in item_idCursor:
+      highest_id = result.item_id
+    item_idCursor.close()
+
+    itemid = str(int(highest_id) + 1)
+
     #POST this new item
-    #g.conn.execute("INSERT INTO Items VALUES ((%s), (%s), (%s), (%s), 0);",title,description,price,photo)
+    g.conn.execute("INSERT INTO Items(item_id,item_name,description,price,item_photo,seller_id) VALUES ((%s), (%s), (%s), (%s), (%s), (%s));",itemid,title,description,price,photo,seller_id)
 
     redirectURL = '/loggedIn/' + user_id
     return redirect(redirectURL)
