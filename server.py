@@ -80,8 +80,8 @@ def createAccount():
     return "Grabbed the file " + img_filename + " and uploaded to " + image['link']
   return render_template("createAccount.html", form=form)
 
-@app.route('/newListing', methods=['GET','POST'])
-def newListing():
+@app.route('/newListing/<user_id>', methods=['GET','POST'])
+def newListing(user_id):
   form = UploadFileForm()
   if form.validate_on_submit():
     uploaded_img = request.files['file']
@@ -93,7 +93,7 @@ def newListing():
     os.remove(img_file_path)
     
     return "Grabbed the file " + img_filename + " and uploaded to " + image['link']
-  return render_template("newListing.html", form=form)
+  return render_template("newListing.html", form=form, user_id=user_id)
 
 @app.route('/logIn')
 def logIn():
@@ -237,8 +237,8 @@ def accountCreator():
     redirectURL = '/loggedIn/' + current_user.user_id
     return redirect(redirectURL)
 
-@app.route('/listingCreator', methods=['POST'])
-def listingCreator():
+@app.route('/listingCreator/<user_id>', methods=['POST'])
+def listingCreator(user_id):
     
     title = request.form['title']
     description = request.form['description']
@@ -246,10 +246,9 @@ def listingCreator():
     photo = request.form['photo']
     
     #POST this new item
-    g.conn.execute("INSERT INTO Items VALUES ((%s), (%s), (%s), (%s), 0);",title,description,price,photo)
+    #g.conn.execute("INSERT INTO Items VALUES ((%s), (%s), (%s), (%s), 0);",title,description,price,photo)
 
-    #redirectURL = '/loggedIn/' + current_user.user_id
-    redirectURL = '/'
+    redirectURL = '/loggedIn/' + user_id
     return redirect(redirectURL)
 
 @app.route('/logInWInput', methods=['POST'])

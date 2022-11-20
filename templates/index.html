@@ -542,7 +542,7 @@
       </div>
     </div>
     <div class="body-wrapper">
-      <form class="new-listing-btn-wrapper" action="/newListing">
+      <form class="new-listing-btn-wrapper" action="/newListing/{{current_user.user_id}}">
         <button class="new-listing-btn">
           <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
           <div class="new-listing-btn-text">New Listing</div>

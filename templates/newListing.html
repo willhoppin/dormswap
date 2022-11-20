@@ -420,7 +420,7 @@
         </div>
       </div>
       <div class="login-form-wrapper">
-        <form class="login-form" method="POST" action="/accountCreator">
+        <form class="login-form" method="POST" action="/listingCreator/{{user_id}}">
             <div class="form-title">Title</div>
             <input class="login-input" placeholder="ilovedormswap" type="text" name="title">
             <div class="form-title">Description</div>
@@ -438,6 +438,9 @@
           {{form.submit()}}
         </form>
         -->
+        <form action="/loggedIn/{{user_id}}">
+            <input class="create-account-btn" type="submit" value="Cancel">
+        </form>
       </div>
     </div>
   </div>
