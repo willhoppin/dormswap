@@ -124,6 +124,7 @@ def viewItem(user_id, item_id):
   seller_rank = 0
   review_count = 0
 
+  #pull histories, average them, floor them
   historyCursor = g.conn.execute("SELECT * FROM his_recorded WHERE user_id = (%s)", current_item.seller_id)
   for result in historyCursor:
     if (review_count == 0):
@@ -173,6 +174,7 @@ def sortReviews(user_id):
     current_user = result
   nameCursor.close()
 
+  #this needs work: complicated query
   cursor = g.conn.execute("SELECT DISTINCT * FROM Items i, His_recorded h WHERE h.user_id = i.seller_id ORDER BY h.grade DESC")
   items = []
   item_ids = []
@@ -180,7 +182,6 @@ def sortReviews(user_id):
     if (result.item_id not in item_ids):
       item_ids.append(result.item_id)
       items.append(result)
-      #jumpo back in here
   cursor.close()
   context = dict(items = items)
   return render_template("index.html", **context, current_user=current_user, user_logged_in=True)
