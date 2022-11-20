@@ -122,10 +122,16 @@ def viewItem(user_id, item_id):
   sellerCursor.close()
 
   seller_rank = 0
+  review_count = 0
 
   historyCursor = g.conn.execute("SELECT * FROM his_recorded WHERE user_id = (%s)", current_item.seller_id)
   for result in historyCursor:
-    seller_rank = math.floor(int(result.grade))
+    if (review_count == 0):
+      seller_rank = result.grade
+    else:
+      seller_rank = ((seller_rank * review_count) + result.grade)/(review_count + 1)
+    review_count = review_count + 1
+  seller_rank = math.floor(seller_rank)
   sellerCursor.close()
 
   return render_template("viewItem.html", current_user=current_user, user_logged_in=True, current_item=current_item, current_seller=current_seller, seller_rank=seller_rank)
@@ -167,10 +173,14 @@ def sortReviews(user_id):
     current_user = result
   nameCursor.close()
 
-  cursor = g.conn.execute("SELECT DISTINCT * FROM Items i, his_recorded h WHERE i.seller_id = h.user_id ORDER BY h.grade DESC")
+  cursor = g.conn.execute("SELECT DISTINCT * FROM Items i, His_recorded h WHERE h.user_id = i.seller_id ORDER BY h.grade DESC")
   items = []
+  item_ids = []
   for result in cursor:
-    items.append(result)
+    if (result.item_id not in item_ids):
+      item_ids.append(result.item_id)
+      items.append(result)
+      #jumpo back in here
   cursor.close()
   context = dict(items = items)
   return render_template("index.html", **context, current_user=current_user, user_logged_in=True)
