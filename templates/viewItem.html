@@ -6,7 +6,9 @@
   <style>
       body{
           margin: 0;
+          font-family: Poppins;
       }
+      
       .main-wrapper {
           background: url({{ url_for('static', filename='backgroundarrows.png') }});;
           height: 100vh;
@@ -19,16 +21,103 @@
       .feature-box {
           background: white;
           border-radius: 15px;
-          height: 550px;
+          height: 600px;
           width: 600px;
           box-shadow: 0px 0px 20px 0px #9BCBEB;
+      }
+
+      .feature-box {
+          display: flex;
+          flex-direction: column;
+          padding: 20px;
+      }
+
+      .top-row-wrapper {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+      }
+
+      .main-title {
+          color:#003865;
+          font-size: 22px;
+          font-weight: 500;
+          margin-bottom: 5px;
+      }
+
+      .profile-wrapper {
+          display: flex;
+          align-items: center;
+      }
+
+      .profile-photo {
+        max-height: 30px;
+        max-width: 30px;
+        object-fit: cover;
+        border-radius: 20px;
+      }
+
+      .profile-text {
+          font-size: 14px;
+          color:#003865;
+          margin-left: 5px;
+      }
+
+      .top-data-wrapper {
+          display: flex;
+          align-items: center;
+          margin-bottom: 5px;
+          justify-content: flex-end;
+      }
+
+      .data-wrapper {
+          display: flex;
+          align-items: center;
+      }
+
+      .data-icon {
+        max-width: 16px;
+        max-height: 16px;
+        object-fit: cover;
+        margin: 0 3px;
+      }
+
+      .data-text {
+        color: #9B9B9B;
+        font-size: 14px;
+        margin-right: 5px;
+        margin-left: 1px;
+      }
+
+      .asking-text {
+          background: #003865;
+          border-radius: 5px;
+          padding: 4px 8px;
+          color: white;
+          font-weight: 500;
+          font-size: 14px;
+      }
+
+      .main-image {
+          width: 500px;
+          object-fit: cover;
+          height: 330px;
+          width: 600px;
+          border-radius: 10px;
+          box-shadow: 0px 0px 10px 0px #9BCBEB;
+          margin-bottom: 20px;
+      }
+
+      .item-description {
+          font-size: 16px;
+          color: #9B9B9B;
       }
   </style>
 
 <body> 
     <div class="main-wrapper">
         <div class="feature-box">
-            <div class="top-row-wraper">
+            <div class="top-row-wrapper">
                 <div class="top-row-left-wrapper">
                     <div class="main-title">{{current_item.item_name}}</div>
                     <div class="profile-wrapper">
@@ -50,7 +139,7 @@
                     <div class="asking-text">Asking: ${{current_item.price}}</div>
                 </div>
             </div>
-            <img class="main-image" src="{{current_item.photo}}" align="middle" />
+            <img class="main-image" src="{{current_item.item_photo}}" align="middle" />
             <div class="item-description">{{current_item.description}}</div>
         </div>
     </div>
