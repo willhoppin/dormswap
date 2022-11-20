@@ -395,6 +395,8 @@
       height: 30px;
       background: rgb(236, 236, 236);
       border-radius: 5px;
+      border: none;
+      padding: 10px;
     }
 
     .login-form {
@@ -423,14 +425,20 @@
             <input class="login-input" placeholder="ilovedormswap" type="text" name="username">
             <div class="form-title">Email</div>
             <input class="login-input" placeholder="you@columbia.edu" type="text" name="email">
-            <div class="form-title">Physical Address</div>
+            <div class="form-title">Physical Address (Not Shared Publically)</div>
             <input class="login-input" placeholder="123 Morningside Dr." type="text" name="address">
             <div class="form-title">Venmo @</div>
             <input class="login-input" placeholder="dormswaplover123" type="text" name="venmo">
             <div class="form-title">Photo URL</div>
-            <input class="login-input" placeholder="images.you.com/you" type="text" name="photo">
             <input class="login-submit-btn" type="submit" value="Create Account">
         </form>
+        <!--
+        <form method='POST' enctype='multipart/form-data'>
+          {{form.hidden_tag()}}
+          {{form.file()}}
+          {{form.submit()}}
+        </form>
+        -->
         <form action="/logIn">
           <input class="create-account-btn" type="submit" value="Already have an account? Login">
         </form>

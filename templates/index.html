@@ -234,11 +234,16 @@
 
     .item-feature-wrapper {
       height: 170px;
+      border: none;
       width: 170px;
       border-radius: 10px;
       margin: 0 20px 20px 0;
       box-shadow: 0px 0px 8px 0px #9BCBEB;
       transition: 0.2s ease-in-out;
+      padding: 0 !important;
+      background: white;
+      font-family: Poppins;
+      text-align: left;
     }
 
     .item-feature-wrapper:hover {
@@ -254,6 +259,7 @@
     .item-feature-top {
       height: 110px;
       width: 170px;
+      margin-top: -7px;
     }
 
     .item-feature-photo {
@@ -514,40 +520,42 @@
       -->
       <div class="item-pane-wrapper">
           {% for item in items %}
-          <div class="item-feature-wrapper">
-            <div class="item-feature-top">
-              <img class="item-feature-photo" src="{{item.item_photo}}" align="middle" />
-              <img class="item-feature-white-heart" src="{{url_for('static', filename='whiteheart.png')}}" align="middle" />
-            </div>
-            <div class="item-feature-bottom">
-              <div class="item-feature-bottom-text">{{item.item_name}}</div>
-              <!--
-              <div class="item-feature-desc-text">{{item.description}}</div>
-              -->
-              <div class="item-feature-bottom-data-wrapper">
-                <div class="item-feature-bottom-money-wrapper">
-                  <img class="item-feature-bottom-icon" src="{{url_for('static', filename='whitemoney.png')}}" align="middle" />
-                  <div class="item-feature-bottom-text-white">{{item.price}}</div>
-                </div>
-                <div class="item-feature-bottom-standard-wrapper">
-                  <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayeye.png')}}" align="middle" />
-                  <div class="item-feature-bottom-text-standard">{{item.views}}</div>
-                </div>
-                <div class="item-feature-bottom-standard-wrapper">
-                  <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayheart.png')}}" align="middle" />
-                  <div class="item-feature-bottom-text-standard">{{item.likes}}</div>
-                </div>
+          <form action="/viewItem/{{current_user.user_id}}/{{item.item_id}}">
+            <button class="item-feature-wrapper">
+              <div class="item-feature-top">
+                <img class="item-feature-photo" src="{{item.item_photo}}" align="middle" />
+                <img class="item-feature-white-heart" src="{{url_for('static', filename='whiteheart.png')}}" align="middle" />
               </div>
-              <!--
-              <form class="top-bar-form email-time" action="/emailUser/{{current_user.user_id}}">
-                <button class="filter-button">
-                  <img class="filter-button-icon" src="{{url_for('static', filename='email.png')}}" align="middle" />
-                  <div class="filter-button-text">Email User</div>
-                </button>
-              </form>
-              -->
-            </div>
-          </div>
+              <div class="item-feature-bottom">
+                <div class="item-feature-bottom-text">{{item.item_name}}</div>
+                <!--
+                <div class="item-feature-desc-text">{{item.description}}</div>
+                -->
+                <div class="item-feature-bottom-data-wrapper">
+                  <div class="item-feature-bottom-money-wrapper">
+                    <img class="item-feature-bottom-icon" src="{{url_for('static', filename='whitemoney.png')}}" align="middle" />
+                    <div class="item-feature-bottom-text-white">{{item.price}}</div>
+                  </div>
+                  <div class="item-feature-bottom-standard-wrapper">
+                    <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayeye.png')}}" align="middle" />
+                    <div class="item-feature-bottom-text-standard">{{item.views}}</div>
+                  </div>
+                  <div class="item-feature-bottom-standard-wrapper">
+                    <img class="item-feature-bottom-icon" src="{{url_for('static', filename='grayheart.png')}}" align="middle" />
+                    <div class="item-feature-bottom-text-standard">{{item.likes}}</div>
+                  </div>
+                </div>
+                <!--
+                <form class="top-bar-form email-time" action="/emailUser/{{current_user.user_id}}">
+                  <button class="filter-button">
+                    <img class="filter-button-icon" src="{{url_for('static', filename='email.png')}}" align="middle" />
+                    <div class="filter-button-text">Email User</div>
+                  </button>
+                </form>
+                -->
+              </div>
+            </button>
+          </form>
           {% endfor %}
       </div>
     </div>

@@ -1,13 +1,34 @@
 import logging
+from flask_wtf import FlaskForm
+from wtforms import FileField, SubmitField
+from werkzeug.utils import secure_filename
 from datetime import date
+from imgurpython import ImgurClient
 import os
+import pathlib
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
-from flask import Flask, request, render_template, g, redirect, Response
+from flask import Flask, request, render_template, g, redirect, Response, send_from_directory, url_for, session
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
+app.secret_key = 'This is your secret key to utilize session in Flask'
+client = ImgurClient('4924e300f8a2d4d', '3784cf8b2d17a159caa28c4c90c2966228f73998')
 
+UPLOAD_FOLDER = os.path.join('static')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+
+imgurConfig = {
+  'album': None,
+  'name': 'Nameless',
+  'title': 'DormSwapUpload',
+  'description': 'NoDesc'
+}
+
+class UploadFileForm(FlaskForm):
+  file = FileField("File")
+  submit = SubmitField("Upload File")
 
 DATABASEURI = "postgresql://dy2471:9989@34.75.94.195/proj1part2"
 engine = create_engine(DATABASEURI)
@@ -34,10 +55,6 @@ def teardown_request(exception):
 @app.route('/')
 def index():
   
-
-  print(request.args)
-
-
   cursor = g.conn.execute("SELECT * FROM Items")
   items = []
   for result in cursor:
@@ -46,18 +63,45 @@ def index():
 
   context = dict(items = items)
 
-  
   return render_template("index.html", **context, userName="")
 
-
-
-@app.route('/createAccount')
+@app.route('/createAccount', methods=['GET','POST'])
 def createAccount():
-  return render_template("createAccount.html")
+  form = UploadFileForm()
+  if form.validate_on_submit():
+    uploaded_img = request.files['file']
+    img_filename = secure_filename(uploaded_img.filename)
+    uploaded_img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
+    session['uploaded_img_file_path'] = os.path.join(app.config['UPLOAD_FOLDER'], img_filename)
+    img_file_path = session.get('uploaded_img_file_path', None)
+    image = client.upload_from_path(img_file_path, config=imgurConfig, anon=False) #upload file to Imgur
+    os.remove(img_file_path)
+    
+    return "Grabbed the file " + img_filename + " and uploaded to " + image['link']
+  return render_template("createAccount.html", form=form)
 
 @app.route('/logIn')
 def logIn():
   return redirect("/")
+
+@app.route('/viewItem/<user_id>/<item_id>')
+def viewItem(user_id, item_id):
+  nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
+  for result in nameCursor:
+    current_user = result
+  nameCursor.close()
+
+  itemCursor = g.conn.execute("SELECT * FROM Items WHERE item_id = (%s)", item_id)
+  for result in itemCursor:
+    current_item = result
+  itemCursor.close()
+
+  sellerCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", current_item.seller_id)
+  for result in sellerCursor:
+    current_seller = result
+  sellerCursor.close()
+
+  return render_template("viewItem.html", current_user=current_user, user_logged_in=True, current_item=current_item, current_seller=current_seller)
 
 @app.route('/sortLikes/<user_id>')
 def sortLikes(user_id):
@@ -173,7 +217,7 @@ def accountCreator():
 
     redirectURL = '/loggedIn/' + current_user.user_id
     return redirect(redirectURL)
-    
+
 @app.route('/logInWInput', methods=['POST'])
 def logInWInput():
     name = request.form['name']
