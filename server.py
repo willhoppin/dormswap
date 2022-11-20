@@ -52,7 +52,6 @@ def teardown_request(exception):
   except Exception as e:
     pass
 
-
 @app.route('/')
 def index():
   
@@ -80,6 +79,10 @@ def createAccount():
     
     return "Grabbed the file " + img_filename + " and uploaded to " + image['link']
   return render_template("createAccount.html", form=form)
+
+@app.route('/messengerClient/<user_id>/<other_user_id>', methods=['GET','POST'])
+def messengerClient(user_id, other_user_id):
+  return render_template("messengerClient.html", user_id=user_id, other_user_id=other_user_id)
 
 @app.route('/newListing/<user_id>', methods=['GET','POST'])
 def newListing(user_id):

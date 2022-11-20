@@ -544,12 +544,12 @@
       </div>
     </div>
     <div class="body-wrapper">
-      <div class="messenger-btn-wrapper">
-        <div class="messenger-btn">
+      <form class="messenger-btn-wrapper" action="/messengerClient/{{current_user.user_id}}/none">
+        <button class="messenger-btn">
           <img class="messenger-btn-icon" src="{{url_for('static', filename='message.png')}}" align="middle" />
           <div class="messenger-btn-text">Messenger</div>
-        </div>
-      </div>
+        </button>
+      </form>
       <form class="new-listing-btn-wrapper" action="/newListing/{{current_user.user_id}}">
         <button class="new-listing-btn">
           <img class="new-listing-btn-icon" src="{{url_for('static', filename='plus.png')}}" align="middle" />
