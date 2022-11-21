@@ -43,6 +43,28 @@
           margin-bottom: 5px;
       }
 
+      .low-button-wrap {
+          display: flex;
+          align-items: center;
+      }
+
+      .delete-button {
+          border: none;
+          background: rgb(236, 223, 223);
+          color: rgb(128, 26, 26);
+          cursor: pointer;
+          border-radius: 5px;
+          padding: 4px 8px;
+          font-weight: 500;
+          font-size: 14px;
+          font-family: Poppins;
+          margin-right: 10px;
+      }
+
+      .delete-form {
+          margin: 0;
+      }
+
       .profile-wrapper {
           display: flex;
           align-items: center;
@@ -219,7 +241,16 @@
                                 </button>
                             </form>
                         </div>
-                        <div class="asking-text">Asking: ${{current_item.price}}</div>
+                        <div class="low-button-wrap">
+                            {% if current_item.seller_id == current_user.user_id %}
+                            <form class="delete-form" action="/deleteItem/{{current_user.user_id}}/{{current_item.item_id}}">
+                                <button class="delete-button">
+                                    <div class="delete-text">Delete Item</div>
+                                </button>
+                            </form>
+                            {% endif %}
+                            <div class="asking-text">Asking: ${{current_item.price}}</div>
+                        </div>
                     </div>
                 </div>
                 <img class="main-image" src="{{current_item.item_photo}}" align="middle" />

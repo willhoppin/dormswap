@@ -150,6 +150,16 @@ def likeItem(user_id, item_id):
 
   return redirect(redirectURL)
 
+@app.route('/deleteItem/<user_id>/<item_id>')
+def deleteItem(user_id, item_id):
+
+  #find the item with the ID, increment the like
+  g.conn.execute("DELETE FROM Items WHERE item_id = (%s)", item_id)
+
+  redirectURL = '/loggedIn/' + user_id
+
+  return redirect(redirectURL)
+
 @app.route('/sortLikes/<user_id>')
 def sortLikes(user_id):
   nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
@@ -276,6 +286,8 @@ def listingCreator(user_id):
     price = int(request.form['price'])
     photo = request.form['photo']
     seller_id = user_id
+    likes = 0
+    views = 0
 
     item_idCursor = g.conn.execute("SELECT * FROM Items WHERE item_id = (SELECT MAX(item_id) FROM Items)")
     for result in item_idCursor:
@@ -285,7 +297,7 @@ def listingCreator(user_id):
     itemid = str(int(highest_id) + 1)
 
     #POST this new item
-    g.conn.execute("INSERT INTO Items(item_id,item_name,description,price,item_photo,seller_id) VALUES ((%s), (%s), (%s), (%s), (%s), (%s));",itemid,title,description,price,photo,seller_id)
+    g.conn.execute("INSERT INTO Items(item_id,item_name,description,price,item_photo,seller_id,likes,views) VALUES ((%s), (%s), (%s), (%s), (%s), (%s),(%s), (%s));",itemid,title,description,price,photo,seller_id,likes,views)
 
     redirectURL = '/loggedIn/' + user_id
     return redirect(redirectURL)
