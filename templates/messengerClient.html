@@ -92,16 +92,16 @@
                 <div class="header-text">
                     Your Conversations
                 </div>
-                {% for chat_data in all_chats %}
-                <form class="chat-preview-form" action="/messengerClient/{{current_user.user_id}}/{{chat_data[0].chat_id}}">
-                    <button class="chat-preview-button">
-                        <div class="chat-preview-wrapper">
-                            <img class="chat-preview-photo" src="{{chat_data[1].photo}}" align="middle" />
-                            <div class="chat-preview-text">{{chat_data[1].user_name}}</div>
-                        </div>
-                    </button>
-                </form>
-                {% endfor %}
+                    {% for chat_data in all_chats %}
+                    <form class="chat-preview-form" action="/messengerClient/{{current_user.user_id}}/{{chat_data[0].chat_id}}">
+                        <button class="chat-preview-button">
+                            <div class="chat-preview-wrapper">
+                                <img class="chat-preview-photo" src="{{chat_data[1].photo}}" align="middle" />
+                                <div class="chat-preview-text">{{chat_data[1].user_name}}</div>
+                            </div>
+                        </button>
+                    </form>
+                    {% endfor %}
             </div>
             <div class="right-wrapper">
                 <div class="header-text">
@@ -110,6 +110,11 @@
                     {% else %}
                     {{other_user.user_name}}
                     {% endif %}
+                </div>
+                <div>
+                    {% for message in messages %}
+                    {{message.text}}
+                    {% endfor %}
                 </div>
             </div>
         </div>
