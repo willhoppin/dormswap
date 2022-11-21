@@ -85,6 +85,7 @@ def messengerClient(user_id, chat_id):
   selected_chat = []
   other_user = []
   all_chats = []
+  messages = []
   
   #GET the current user
   nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
@@ -142,7 +143,7 @@ def messengerClient(user_id, chat_id):
       other_user = result
     otherCursor.close()
 
-  return render_template("messengerClient.html", current_user=current_user, other_user=other_user, all_chats=all_chats, messages=messages)
+  return render_template("messengerClient.html", current_user=current_user, other_user=other_user, all_chats=all_chats, messages=messages, chat_id = chat_id)
 
 @app.route('/newListing/<user_id>', methods=['GET','POST'])
 def newListing(user_id):

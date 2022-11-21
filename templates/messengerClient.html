@@ -21,7 +21,7 @@
       .feature-box {
           background: white;
           border-radius: 15px;
-          height: 500px;
+          height: 550px;
           width: 600px;
           box-shadow: 0px 0px 20px 0px #9BCBEB;
           display: flex;
@@ -29,13 +29,13 @@
 
       .left-wrapper {
           width: 299px;
-          height: 500px;
+          height: 550px;
           border-right: 2px solid #003865;
       }
 
       .right-wrapper {
           width: 299px;
-          height: 500px;
+          height: 550px;
       }
 
       .header-text {
@@ -77,7 +77,8 @@
           border-radius: 10px;
           background: white;
           transition: 0.2s ease-in-out;
-          width: 100%;
+          width: 279px;
+          margin: 0 10px;
       }
 
       .chat-preview-button:hover {
@@ -94,12 +95,6 @@
 
       .chat-preview-photo-selected {
           box-shadow: 0px 0px 10px 0px #ffffff;
-      }
-
-      .messages-wrapper {
-          display: flex;
-          flex-direction: column;
-          font-size: 14px;
       }
 
       .my-message-wrapper {
@@ -119,6 +114,50 @@
           width:fit-content;
           color: #003865;
       }
+
+      .messages-wrapper {
+          height: 350px;
+          overflow: auto;
+          border-top: 1px solid #003865;
+          border-bottom: 1px solid #003865;
+          display: flex;
+          flex-direction: column;
+          font-size: 14px;
+          padding-top: 10px;
+      }
+
+      .send-message-form {
+          display: flex;
+          flex-direction: column;
+      }
+
+      .message-field-input {
+          background: rgb(236, 236, 236);
+          border-radius: 10px;
+          margin: 10px 10px 0 10px;
+          border: none;
+          font-family: Poppins;
+          height: 60px;
+          padding: 5px 10px;
+      }
+
+      .message-submit-btn {
+          background: #003865;
+          border-radius: 10px;
+          color: white;
+          height: 30px;
+          font-family: Poppins;
+          font-weight: 500;
+          border: none;
+          margin: 10px;
+          cursor: pointer;
+          transition: 0.2s ease-in-out;
+      }
+
+      .message-submit-btn:hover {
+          opacity: 0.8;
+      }
+
   </style>
 
 <body> 
@@ -128,31 +167,31 @@
                 <div class="header-text">
                     Your Conversations
                 </div>
-                    {% for chat_data in all_chats %}
-                        {% if other_user.user_id == chat_data[1].user_id %}
-                            <form class="chat-preview-form" action="/messengerClient/{{current_user.user_id}}/{{chat_data[0].chat_id}}">
-                                <button class="chat-preview-button chat-preview-selected">
-                                    <div class="chat-preview-wrapper">
-                                        <img class="chat-preview-photo chat-preview-photo-selected" src="{{chat_data[1].photo}}" align="middle" />
-                                        <div class="chat-preview-text chat-preview-text-selected">{{chat_data[1].user_name}}</div>
-                                    </div>
-                                </button>
-                            </form>
-                        {% else %}
-                            <form class="chat-preview-form" action="/messengerClient/{{current_user.user_id}}/{{chat_data[0].chat_id}}">
-                                <button class="chat-preview-button">
-                                    <div class="chat-preview-wrapper">
-                                        <img class="chat-preview-photo" src="{{chat_data[1].photo}}" align="middle" />
-                                        <div class="chat-preview-text">{{chat_data[1].user_name}}</div>
-                                    </div>
-                                </button>
-                            </form>
-                        {% endif %}
-                    {% endfor %}
+                {% for chat_data in all_chats %}
+                    {% if other_user.user_id == chat_data[1].user_id %}
+                        <form class="chat-preview-form" action="/messengerClient/{{current_user.user_id}}/{{chat_data[0].chat_id}}">
+                            <button class="chat-preview-button chat-preview-selected">
+                                <div class="chat-preview-wrapper">
+                                    <img class="chat-preview-photo chat-preview-photo-selected" src="{{chat_data[1].photo}}" align="middle" />
+                                    <div class="chat-preview-text chat-preview-text-selected">{{chat_data[1].user_name}}</div>
+                                </div>
+                            </button>
+                        </form>
+                    {% else %}
+                        <form class="chat-preview-form" action="/messengerClient/{{current_user.user_id}}/{{chat_data[0].chat_id}}">
+                            <button class="chat-preview-button">
+                                <div class="chat-preview-wrapper">
+                                    <img class="chat-preview-photo" src="{{chat_data[1].photo}}" align="middle" />
+                                    <div class="chat-preview-text">{{chat_data[1].user_name}}</div>
+                                </div>
+                            </button>
+                        </form>
+                    {% endif %}
+                {% endfor %}
             </div>
             <div class="right-wrapper">
                 <div class="header-text">
-                    {% if selected_chat == [] %}
+                    {% if other_user == [] %}
                     <i>No chat selected</i>
                     {% else %}
                     {{other_user.user_name}}
@@ -171,10 +210,16 @@
                         {% endif %}
                     {% endfor %}
                 </div>
+                <form class="send-message-form" action="/sendMessage/{{current_user.user_id}}/{{chat_id}}">
+                    <textarea class="message-field-input" placeholder="Write a message here" type="text" name="message"></textarea>
+                    <input class="message-submit-btn" type="submit" value="Send">
+                </form>
             </div>
         </div>
     </div>
+
 </body>
 
 
 </html>
+
