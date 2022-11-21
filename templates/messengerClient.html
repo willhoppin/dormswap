@@ -83,6 +83,14 @@
       .chat-preview-button:hover {
           background: #dee7ee;
       }
+
+      .my-message-wrapper {
+          background: blue;
+      }
+
+      .ext-message-wrapper {
+          background: yellow;
+      }
   </style>
 
 <body> 
@@ -113,7 +121,15 @@
                 </div>
                 <div>
                     {% for message in messages %}
-                    {{message.text}}
+                        {% if message.sender == current_user.user_id %}
+                        <div class="my-message-wrapper">
+                            {{message.text}}
+                        </div>
+                        {% else %}
+                        <div class="ext-message-wrapper">
+                            {{message.text}}
+                        </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
