@@ -275,8 +275,14 @@ def offerMaker(user_id, item_id):
     c_number = str(int(highest_chat_id) + 1)
 
     #make the API call
-    g.conn.execute("INSERT INTO Communicate(chat_id,buyer_id,seller_id) VALUES ((%s), (%s), (%s));",c_number,user_id,current_item.seller)
+    g.conn.execute("INSERT INTO Chat(chat_id) VALUES ((%s));",c_number)
+    g.conn.execute("INSERT INTO Communicate(chat_id,buyer_id,seller_id) VALUES ((%s), (%s), (%s));",c_number,user_id,current_item.seller_id)
 
+    #GET the chat, set to targetChat
+    ccCursor = g.conn.execute("SELECT * FROM Communicate WHERE chat_id = (%s)", c_number)
+    for result in ccCursor:
+      targetChat = result
+    ccCursor.close()
   
   #add to the chat
   g.conn.execute("INSERT INTO Mess_send(m_number,sender,text,chat_id) VALUES ((%s), (%s), (%s), (%s));",m_number,user_id,text,targetChat.chat_id)
