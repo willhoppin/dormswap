@@ -208,7 +208,7 @@ def sortReviews(user_id):
   nameCursor.close()
 
   #this needs work: complicated query
-  cursor = g.conn.execute ("select i.item_name, u.user_name, avg(h.grade) from items i, deal d, users u, his_recorded h where i.item_id = d.item_id and d.seller_id = u.user_id and u.user_id = h.user_id group by i.item_name, u.user_name, order by avg(h.grade) desc")
+  cursor = g.conn.execute ("select i.item_name, i.item_id, i.views, i.likes, i.price, i.item_photo, u.user_name, avg(h.grade) from items i, deal d, users u, his_recorded h where i.item_id = d.item_id and d.seller_id = u.user_id and u.user_id = h.user_id group by i.price, i.item_name, u.user_name, i.item_photo, i.views, i.likes, i.item_id order by avg(h.grade) desc")
   items = []
   for result in cursor:
     items.append(result)
