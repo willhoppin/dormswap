@@ -80,15 +80,45 @@ def createAccount():
     return "Grabbed the file " + img_filename + " and uploaded to " + image['link']
   return render_template("createAccount.html", form=form)
 
-@app.route('/messengerClient/<user_id>/<other_user_id>', methods=['GET','POST'])
-def messengerClient(user_id, other_user_id):
+@app.route('/messengerClient/<user_id>/<chat_id>', methods=['GET','POST'])
+def messengerClient(user_id, chat_id):
+  selected_chat = []
+  other_user = []
+  
   #GET the current user
   nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
   for result in nameCursor:
     current_user = result
   nameCursor.close()
 
-  other_user = []
+  #GET the chat ID if route specifies one
+  if (chat_id != 'none'):
+    chatCursor = g.conn.execute("SELECT * FROM Communicate WHERE chat_id = (%s)", chat_id)
+    for result in chatCursor:
+      current_chat = result
+    chatCursor.close()
+
+    print(chat)
+    messages = []
+    messageCursor = g.conn.execute("SELECT * FROM Mess_send WHERE chat_id = (%s)", chat_id)
+    for result in messageCursor:
+      messages.append(result)
+    messageCursor.close()
+
+    print(messages)
+    
+    #find the appropriate other user ID
+    if (current_chat.buyer_id == current_user.user_id):
+      other_user_id = current_chat.seller_id
+    else:
+      other_user_id = current_chat.buyer_id
+    
+    print(other_user_id)
+    #GET the other user
+    #otherCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", other_user_id)
+    #for result in otherCursor:
+    #  other_user = result
+    #otherCursor.close()
 
   return render_template("messengerClient.html", current_user=current_user, other_user=other_user)
 

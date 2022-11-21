@@ -56,7 +56,8 @@
             </div>
             <div class="right-wrapper">
                 <div class="header-text">
-                    {% if other_user == [] %}
+                    <i>No chat selected</i>
+                    {% if chat == [] %}
                     <i>No chat selected</i>
                     {% else %}
                     {{other_user.user_name}}
