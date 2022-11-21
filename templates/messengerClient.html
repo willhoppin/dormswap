@@ -41,7 +41,7 @@
       .header-text {
           color: #003865;
           font-weight: 500;
-          font-size: 20px;
+          font-size: 18px;
           margin: 20px;
       }
   </style>
@@ -53,10 +53,12 @@
                 <div class="header-text">
                     Your Conversations
                 </div>
+                {% for chat in all_chats %}
+                {{chat.chat_id}}
+                {% endfor %}
             </div>
             <div class="right-wrapper">
                 <div class="header-text">
-                    <i>No chat selected</i>
                     {% if chat == [] %}
                     <i>No chat selected</i>
                     {% else %}

@@ -84,6 +84,7 @@ def createAccount():
 def messengerClient(user_id, chat_id):
   selected_chat = []
   other_user = []
+  all_chats = []
   
   #GET the current user
   nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
@@ -98,29 +99,31 @@ def messengerClient(user_id, chat_id):
       current_chat = result
     chatCursor.close()
 
-    print(chat)
+    #GET all relevant chats (involving current_user)
+    allChatsCursor = g.conn.execute("SELECT * FROM Communicate WHERE buyer_id = (%s) OR seller_id = (%s)", user_id, user_id)
+    for result in allChatsCursor:
+      all_chats.append(result)
+    allChatsCursor.close()
+
     messages = []
     messageCursor = g.conn.execute("SELECT * FROM Mess_send WHERE chat_id = (%s)", chat_id)
     for result in messageCursor:
       messages.append(result)
     messageCursor.close()
-
-    print(messages)
     
     #find the appropriate other user ID
     if (current_chat.buyer_id == current_user.user_id):
       other_user_id = current_chat.seller_id
     else:
       other_user_id = current_chat.buyer_id
-    
-    print(other_user_id)
+        
     #GET the other user
-    #otherCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", other_user_id)
-    #for result in otherCursor:
-    #  other_user = result
-    #otherCursor.close()
+    otherCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", other_user_id)
+    for result in otherCursor:
+      other_user = result
+    otherCursor.close()
 
-  return render_template("messengerClient.html", current_user=current_user, other_user=other_user)
+  return render_template("messengerClient.html", current_user=current_user, other_user=other_user, all_chats=all_chats)
 
 @app.route('/newListing/<user_id>', methods=['GET','POST'])
 def newListing(user_id):
