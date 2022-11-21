@@ -168,6 +168,16 @@
       .offer-submit-btn:hover {
           opacity: 0.8;
       }
+
+      .like-button-button {
+          border: none;
+          background: white;
+          cursor: pointer;
+      }
+
+      .like-button-form {
+          margin: 0;
+      }
   </style>
 
 <body> 
@@ -194,16 +204,20 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="data-wrapper">
-                                <img class="data-icon" src="{{url_for('static', filename='grayheart.png')}}" align="middle" />
-                                <div class="data-text">
-                                    {% if current_item.likes %}
-                                    {{current_item.likes}}
-                                    {% else %}
-                                    0
-                                    {% endif %}
-                                </div>
-                            </div>
+                            <form class="like-button-form" action="/likeItem/{{current_user.user_id}}/{{current_item.item_id}}">
+                                <button class="like-button-button">
+                                    <div class="data-wrapper">
+                                        <img class="data-icon" src="{{url_for('static', filename='grayheart.png')}}" align="middle" />
+                                        <div class="data-text">
+                                            {% if current_item.likes %}
+                                            {{current_item.likes}}
+                                            {% else %}
+                                            0
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </button>
+                            </form>
                         </div>
                         <div class="asking-text">Asking: ${{current_item.price}}</div>
                     </div>

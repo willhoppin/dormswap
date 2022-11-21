@@ -140,6 +140,16 @@ def viewItem(user_id, item_id):
 
   return render_template("viewItem.html", current_user=current_user, user_logged_in=True, current_item=current_item, current_seller=current_seller, seller_rank=seller_rank)
 
+@app.route('/likeItem/<user_id>/<item_id>')
+def likeItem(user_id, item_id):
+
+  #find the item with the ID, increment the like
+  g.conn.execute("UPDATE Items SET likes = likes + 1 WHERE item_id = (%s)", item_id)
+
+  redirectURL = '/viewItem/' + user_id + '/' + item_id
+
+  return redirect(redirectURL)
+
 @app.route('/sortLikes/<user_id>')
 def sortLikes(user_id):
   nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
