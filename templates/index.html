@@ -41,6 +41,17 @@
       z-index: 1;
     }
 
+    .logo-button {
+      border: none;
+      background: white;
+      font-family: Poppins;
+      cursor: pointer;
+    }
+
+    .logo-form {
+      margin: 0;
+    }
+
     .top-wrapper-left {
       display: flex;
       align-items: center;
@@ -495,12 +506,16 @@
   <div class="main-wrapper">
     <div class="top-wrapper top-wrapper-attributes">
       <div class="top-wrapper-left">
-        <div class="logo-text-wrapper">
-          <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
-          <div class="logo-text">
-            DormSwap
-          </div>
-        </div>
+        <form class="logo-form" action="/loggedIn/{{current_user.user_id}}">
+          <button class="logo-button">
+            <div class="logo-text-wrapper">
+              <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
+              <div class="logo-text">
+                DormSwap
+              </div>
+            </div>
+          </button>
+        </form>
         <form class="top-bar-form" action="/sortSearch/{{current_user.user_id}}" method="POST">
             <input class="login-input search-bar-input" placeholder="🔎 Search for used items for sale on Columbia University's campus..." type="text" name="name">
         </form>

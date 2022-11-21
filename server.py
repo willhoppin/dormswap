@@ -198,13 +198,11 @@ def sortReviews(user_id):
   nameCursor.close()
 
   #this needs work: complicated query
-  cursor = g.conn.execute("SELECT DISTINCT * FROM Items i, His_recorded h WHERE h.user_id = i.seller_id ORDER BY h.grade DESC")
+  cursor = g.conn.execute ("select i.item_name, u.user_name, avg(h.grade) from items i, deal d, users u, his_recorded h where i.item_id = d.item_id and d.seller_id = u.user_id and u.user_id = h.user_id group by i.item_name, u.user_name, order by avg(h.grade) desc")
   items = []
-  item_ids = []
   for result in cursor:
-    if (result.item_id not in item_ids):
-      item_ids.append(result.item_id)
-      items.append(result)
+    items.append(result)
+    
   cursor.close()
   context = dict(items = items)
   return render_template("index.html", **context, current_user=current_user, user_logged_in=True)
