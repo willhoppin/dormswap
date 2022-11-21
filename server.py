@@ -215,7 +215,7 @@ def sortSearch(user_id):
   nameCursor.close()
 
   items = []
-  cursor = g.conn.execute("SELECT * FROM Items WHERE UPPER(item_name) LIKE UPPER((%s))", namePercents)
+  cursor = g.conn.execute("SELECT * FROM Items WHERE UPPER(item_name) LIKE UPPER((%s)) OR UPPER(description) LIKE UPPER((%s))", namePercents, namePercents)
   for result in cursor:
     items.append(result)
   cursor.close()
