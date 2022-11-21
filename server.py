@@ -80,6 +80,25 @@ def createAccount():
     return "Grabbed the file " + img_filename + " and uploaded to " + image['link']
   return render_template("createAccount.html", form=form)
 
+@app.route('/sendMessage/<user_id>/<chat_id>', methods=['GET','POST'])
+def sendMessage(user_id, chat_id):
+  
+  redirectURL = '/messengerClient/' + user_id + '/' + chat_id
+
+  text = request.form['message']
+
+  mCursor = g.conn.execute("SELECT * FROM Mess_send WHERE m_number = (SELECT MAX(m_number) FROM Mess_send)")
+  for result in mCursor:
+    highest_id = result.m_number
+  mCursor.close()
+  m_number = str(int(highest_id) + 1)
+
+  #POST this message
+  g.conn.execute("INSERT INTO Mess_send(m_number,sender,text,chat_id) VALUES ((%s), (%s), (%s), (%s));",m_number,user_id,text,chat_id)
+
+  return redirect(redirectURL)
+
+
 @app.route('/messengerClient/<user_id>/<chat_id>', methods=['GET','POST'])
 def messengerClient(user_id, chat_id):
   selected_chat = []
@@ -126,7 +145,7 @@ def messengerClient(user_id, chat_id):
     chatCursor.close()
 
     messages = []
-    messageCursor = g.conn.execute("SELECT * FROM Mess_send WHERE chat_id = (%s)", chat_id)
+    messageCursor = g.conn.execute("SELECT * FROM Mess_send WHERE chat_id = (%s) ORDER BY m_number ASC", chat_id)
     for result in messageCursor:
       messages.append(result)
     messageCursor.close()
