@@ -228,7 +228,7 @@ def emailUser(user_id):
   for result in nameCursor:
     target_user = result
   nameCursor.close()
-  mailto_link = 'mailto:' + target_user.email;
+  mailto_link = 'mailto:' + target_user.email
   return redirect(mailto_link)
 
 @app.route('/accountCreator', methods=['POST'])
