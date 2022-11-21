@@ -78,6 +78,15 @@
       position: fixed;
       z-index: -1;
       top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .left-wrapper-text {
+      font-size: 12px;
+      padding: 15px;
+      text-align: center;
     }
 
     .logo-text-wrapper {
@@ -573,7 +582,11 @@
           <div class="new-listing-btn-text">New Listing</div>
         </button>
       </form>
-      <div class="left-wrapper"></div>
+      <div class="left-wrapper">
+        <div class="left-wrapper-text">
+          Made with ❤️ by James Yang and Will Hoppin @ CU, Fall '22
+        </div>      
+      </div>
       <!--
       <div class="new-listing-btn-wrapper">
           <form class="login-form" method="POST" action="/accountCreator">
