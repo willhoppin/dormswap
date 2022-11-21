@@ -25,17 +25,39 @@
           width: 600px;
           box-shadow: 0px 0px 20px 0px #9BCBEB;
           display: flex;
-          flex-direction: column;
-          padding: 20px;
-          align-items: center;
-          justify-content: center;
+      }
+
+      .left-wrapper {
+          width: 299px;
+          height: 500px;
+          border-right: 2px solid #003865;
+      }
+
+      .right-wrapper {
+          width: 299px;
+          height: 500px;
+      }
+
+      .header-text {
+          color: #003865;
+          font-weight: 500;
+          font-size: 20px;
       }
   </style>
 
 <body> 
     <div class="main-wrapper">
         <div class="feature-box">
-            DormSwap Messenger
+            <div class="left-wrapper">
+                <div class="header-text">
+                    Conversations
+                </div>
+            </div>
+            <div class="right-wrapper">
+                <div class="header-text">
+                    Name - name here
+                </div>
+            </div>
         </div>
     </div>
 </body>
