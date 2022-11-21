@@ -42,6 +42,7 @@
           color: #003865;
           font-weight: 500;
           font-size: 20px;
+          margin: 20px;
       }
   </style>
 
@@ -50,12 +51,16 @@
         <div class="feature-box">
             <div class="left-wrapper">
                 <div class="header-text">
-                    Conversations
+                    Your Conversations
                 </div>
             </div>
             <div class="right-wrapper">
                 <div class="header-text">
-                    Name - name here
+                    {% if other_user == [] %}
+                    <i>No chat selected</i>
+                    {% else %}
+                    {{other_user.user_name}}
+                    {% endif %}
                 </div>
             </div>
         </div>

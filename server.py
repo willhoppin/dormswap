@@ -82,7 +82,15 @@ def createAccount():
 
 @app.route('/messengerClient/<user_id>/<other_user_id>', methods=['GET','POST'])
 def messengerClient(user_id, other_user_id):
-  return render_template("messengerClient.html", user_id=user_id, other_user_id=other_user_id)
+  #GET the current user
+  nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
+  for result in nameCursor:
+    current_user = result
+  nameCursor.close()
+
+  other_user = []
+
+  return render_template("messengerClient.html", current_user=current_user, other_user=other_user)
 
 @app.route('/newListing/<user_id>', methods=['GET','POST'])
 def newListing(user_id):
