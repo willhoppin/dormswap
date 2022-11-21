@@ -133,11 +133,6 @@
       margin-right: 10px;
     }
 
-    .profile-menu-wrapper:hover {
-      background: #d3dce2;
-      cursor: pointer;
-    }
-
     .profile-menu-text {
       font-weight: 500;
       font-size: 15px;
@@ -339,6 +334,7 @@
     }
 
     .login-main-box {
+      margin-top: 50px;
       width: 600px;
       box-shadow: 0px 0px 15px 0px #9BCBEB;
       border-radius: 15px;
@@ -412,11 +408,147 @@
       display: flex;
       flex-direction: column;
     }
+
+    .logo-form {
+      margin: 0;
+    }
+
+    .top-wrapper {
+        box-shadow: 0px 0px 15px 0px #9BCBEB;
+        background: white;
+        position: fixed !important;
+        top: 0 !important;
+        width: 100%;
+        justify-content: space-between;
+        display: flex;
+        align-items: center;
+        z-index: 1;
+    }
+
+    .top-wrapper-left {
+        display: flex;
+        align-items: center;
+    }
+
+    .logo-button {
+      border: none;
+      background: white;
+      font-family: Poppins;
+      cursor: pointer;
+    }
+
+    .logo-text-wrapper {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .logo-image {
+      width: 35px;
+      border-radius: 23px;
+      box-shadow: 0px 0px 15px 0px #c3e4fa;
+      margin-right: 10px;
+    }
+
+    .logo-text {
+      color:#003865;
+      font-size:25px;
+      font-weight: 700;
+      margin-right: 20px;
+    }
+
+    .top-wrapper-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-menu-wrapper {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      border-radius: 7px;
+      transition: 0.2s ease-in-out;
+      margin-right: 10px;
+    }
+
+    .profile-menu-photo {
+      max-height: 35px;
+      max-width: 35px;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    .profile-menu-text {
+      font-weight: 500;
+      font-size: 15px;
+      color: #003865;
+      margin: 0 10px 0 15px;
+    }
+
+    .top-bar-form {
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .filter-button {
+      display: flex;
+      align-items: center;
+      margin-right: 5px;
+      border-radius: 30px;
+      transition: 0.2s ease-in-out;
+      padding: 3px 7px;
+      border: none;
+      background: white;
+    }
+
+    .filter-button:hover {
+      background: #d3dce2;
+      cursor: pointer;
+    }
+
+    .filter-button-icon {
+      max-height: 12px;
+      max-width: 12px;
+      margin-right: 5px;
+      object-fit: cover;
+    }
+
+    .filter-button-text {
+      white-space: nowrap;
+      font-family: Poppins;
+      color: #003865;
+    }
   </style>
 
 
-<body> 
-
+<body>
+  <div class="top-wrapper">
+    <div class="top-wrapper-left">
+      <form class="logo-form" action="/loggedIn/{{current_user.user_id}}">
+        <button class="logo-button">
+          <div class="logo-text-wrapper">
+            <img class="logo-image" src="{{url_for('static', filename='lion.png')}}" align="middle" />
+            <div class="logo-text">
+              DormSwap
+            </div>
+          </div>
+        </button>
+      </form>
+    </div>
+    <div class="top-wrapper-right">
+      <div class="profile-menu-wrapper">
+        <img class="profile-menu-photo" src="{{current_user.photo}}" align="middle" />
+        <div class="profile-menu-text">{{current_user.user_name}}</div>
+      </div>
+      <form class="top-bar-form" action="/logIn">
+        <button class="filter-button">
+          <img class="filter-button-icon" src="{{url_for('static', filename='logout.png')}}" align="middle" />
+          <div class="filter-button-text">Logout</div>
+        </button>
+      </form>
+    </div>
+  </div>
   <div class="login-wrapper">
     <div class="login-main-box">
       <div class="login-top-row-wrapper">

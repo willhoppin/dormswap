@@ -166,6 +166,11 @@ def messengerClient(user_id, chat_id):
 
 @app.route('/newListing/<user_id>', methods=['GET','POST'])
 def newListing(user_id):
+  nameCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", user_id)
+  for result in nameCursor:
+    current_user = result
+  nameCursor.close()
+  
   form = UploadFileForm()
   if form.validate_on_submit():
     uploaded_img = request.files['file']
@@ -177,7 +182,8 @@ def newListing(user_id):
     os.remove(img_file_path)
     
     return "Grabbed the file " + img_filename + " and uploaded to " + image['link']
-  return render_template("newListing.html", form=form, user_id=user_id)
+    
+  return render_template("newListing.html", form=form, user_id=user_id, current_user=current_user)
 
 @app.route('/logIn')
 def logIn():
