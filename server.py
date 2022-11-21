@@ -92,18 +92,37 @@ def messengerClient(user_id, chat_id):
     current_user = result
   nameCursor.close()
 
+  #GET all relevant chats (involving current_user)
+  allChatsCursor = g.conn.execute("SELECT * FROM Communicate WHERE buyer_id = (%s) OR seller_id = (%s)", user_id, user_id)
+  for result in allChatsCursor:
+    temp = []
+    temp.append(result)
+
+    #FIND the other user's ID
+    if (result.buyer_id == user_id):
+      other_chat_user_id = result.seller_id
+    else:
+      other_chat_user_id = result.buyer_id
+    
+    #GET all the data from that ID
+    chatUserCursor = g.conn.execute("SELECT * FROM Users WHERE user_id = (%s)", other_chat_user_id)
+    for result in chatUserCursor:
+      other_chat_user = result
+    chatUserCursor.close()
+
+    #PACKAGE that in the temp variable
+    temp.append(other_chat_user)
+
+    #INCLUDE that in the all_chats variable
+    all_chats.append(temp)
+  allChatsCursor.close()
+
   #GET the chat ID if route specifies one
   if (chat_id != 'none'):
     chatCursor = g.conn.execute("SELECT * FROM Communicate WHERE chat_id = (%s)", chat_id)
     for result in chatCursor:
       current_chat = result
     chatCursor.close()
-
-    #GET all relevant chats (involving current_user)
-    allChatsCursor = g.conn.execute("SELECT * FROM Communicate WHERE buyer_id = (%s) OR seller_id = (%s)", user_id, user_id)
-    for result in allChatsCursor:
-      all_chats.append(result)
-    allChatsCursor.close()
 
     messages = []
     messageCursor = g.conn.execute("SELECT * FROM Mess_send WHERE chat_id = (%s)", chat_id)

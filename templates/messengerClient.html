@@ -41,8 +41,47 @@
       .header-text {
           color: #003865;
           font-weight: 500;
-          font-size: 18px;
+          font-size: 20px;
           margin: 20px;
+      }
+
+      .chat-preview-wrapper {
+          display: flex;
+          align-items: center;
+      }
+
+      .chat-preview-photo {
+        max-height: 30px;
+        max-width: 30px;
+        object-fit: cover;
+        border-radius: 20px;
+      }
+
+      .chat-preview-text {
+          font-size: 15px;
+          color:#003865;
+          font-weight: 500;
+          font-family: Poppins;
+          margin-left: 12px;
+      }
+
+      .chat-preview-form {
+          margin: 0;
+      }
+
+      .chat-preview-button {
+          cursor: pointer;
+          border: none;
+          background: none;
+          padding: 12px 20px;
+          border-radius: 10px;
+          background: white;
+          transition: 0.2s ease-in-out;
+          width: 100%;
+      }
+
+      .chat-preview-button:hover {
+          background: #dee7ee;
       }
   </style>
 
@@ -53,13 +92,20 @@
                 <div class="header-text">
                     Your Conversations
                 </div>
-                {% for chat in all_chats %}
-                {{chat.chat_id}}
+                {% for chat_data in all_chats %}
+                <form class="chat-preview-form" action="/messengerClient/{{current_user.user_id}}/{{chat_data[0].chat_id}}">
+                    <button class="chat-preview-button">
+                        <div class="chat-preview-wrapper">
+                            <img class="chat-preview-photo" src="{{chat_data[1].photo}}" align="middle" />
+                            <div class="chat-preview-text">{{chat_data[1].user_name}}</div>
+                        </div>
+                    </button>
+                </form>
                 {% endfor %}
             </div>
             <div class="right-wrapper">
                 <div class="header-text">
-                    {% if chat == [] %}
+                    {% if selected_chat == [] %}
                     <i>No chat selected</i>
                     {% else %}
                     {{other_user.user_name}}
