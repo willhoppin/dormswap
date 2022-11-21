@@ -230,6 +230,56 @@ def likeItem(user_id, item_id):
 
   return redirect(redirectURL)
 
+@app.route('/offerMaker/<user_id>/<item_id>', methods=['GET','POST'])
+def offerMaker(user_id, item_id):
+  text = request.form['message']
+  price = request.form['price']
+
+  #CALCULATE the message ID number we will use
+  mCursor = g.conn.execute("SELECT * FROM Mess_send WHERE m_number = (SELECT MAX(m_number) FROM Mess_send)")
+  for result in mCursor:
+    highest_id = result.m_number
+  mCursor.close()
+  m_number = str(int(highest_id) + 1)
+
+  #GET the current item
+  iCursor = g.conn.execute("SELECT * FROM Items WHERE item_id = (%s)", item_id)
+  for result in iCursor:
+    current_item = result
+  iCursor.close()
+
+  #SEE if a chat already exists between these 2 users
+  targetChat = []
+  cCursor = g.conn.execute("SELECT * FROM Communicate WHERE (buyer_id = (%s) AND seller_id = (%s)) OR (seller_id = (%s) AND buyer_id = (%s))",user_id,current_item.seller_id,user_id,current_item.seller_id)
+  for result in cCursor:
+    targetChat = result
+  cCursor.close()
+
+  #GENERATE offer text based on offered price
+  offer_text = 'Offered $' + price + ' for ' + current_item.item_name
+
+  if (targetChat == []):
+    #create a chat, set it to targetChat
+
+    #CALCULATE the chat ID number we will need to use
+    cMaxCursor = g.conn.execute("SELECT * FROM Communicate WHERE chat_id = (SELECT MAX(chat_id) FROM Communicate)")
+    for result in cMaxCursor:
+      highest_chat_id = result.chat_id
+    cMaxCursor.close()
+    c_number = str(int(highest_chat_id) + 1)
+
+    #make the API call
+    g.conn.execute("INSERT INTO Communicate(chat_id,buyer_id,seller_id) VALUES ((%s), (%s), (%s));",c_number,user_id,current_item.seller)
+
+  
+  #add to the chat
+  g.conn.execute("INSERT INTO Mess_send(m_number,sender,text,chat_id) VALUES ((%s), (%s), (%s), (%s));",m_number,user_id,text,targetChat.chat_id)
+  g.conn.execute("INSERT INTO Mess_send(m_number,sender,text,chat_id) VALUES ((%s), (%s), (%s), (%s));",str(int(m_number) + 1),user_id,offer_text,targetChat.chat_id)
+
+  redirectURL = '/messengerClient/' + user_id + '/' + targetChat.chat_id
+
+  return redirect(redirectURL)
+
 @app.route('/tallyViewItem/<user_id>/<item_id>')
 def tallyViewItem(user_id, item_id):
 
