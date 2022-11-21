@@ -150,6 +150,16 @@ def likeItem(user_id, item_id):
 
   return redirect(redirectURL)
 
+@app.route('/tallyViewItem/<user_id>/<item_id>')
+def tallyViewItem(user_id, item_id):
+
+  #find the item with the ID, increment the like
+  g.conn.execute("UPDATE Items SET views = views + 1 WHERE item_id = (%s)", item_id)
+
+  redirectURL = '/viewItem/' + user_id + '/' + item_id
+
+  return redirect(redirectURL)
+
 @app.route('/deleteItem/<user_id>/<item_id>')
 def deleteItem(user_id, item_id):
 
