@@ -4,6 +4,7 @@
  - id: dy2471, pw: 9989
  - The ' univ_name' column of the Users table has some unknown space, so we added the real 'univ_name' at the end of the Users table
  ### Web URL
+ - http://127.0.0.1:8111/
 
  ### Description
  - Log in with your Username and Email. However, if the Username and Email entered by the user do not match the Username and Email in the DB, login will not be successful. If it is first time, through signing up, related information is created in Usertable and you can sign in.
