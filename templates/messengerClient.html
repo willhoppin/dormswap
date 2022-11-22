@@ -362,9 +362,11 @@
                         {{other_user.user_name}}
                         {% endif %}
                     </div>
-                    <a class="venmo-link-wrap" href="https://account.venmo.com/u/{{current_user.venmo}}" target="blank_">
+                    {% if other_user != [] %}
+                    <a class="venmo-link-wrap" href="https://account.venmo.com/u/{{other_user.venmo}}" target="blank_">
                         <img class="venmo-image" src="{{url_for('static', filename='venmo.png')}}" align="middle" />
                     </a>
+                    {% endif %}
                 </div>
                 <div class="messages-wrapper" id="scroll-to-bottom">
                     {% for message in messages %}
