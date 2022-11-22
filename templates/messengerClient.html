@@ -278,6 +278,24 @@
       color: #003865;
     }
 
+    .top-right-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .venmo-link-wrap {
+        text-decoration: none;
+    }
+
+    .venmo-image {
+        width: 40px;
+        margin-right: 12px;
+        padding: 10px 15px;
+        border: 2px solid #008CFF;
+        border-radius: 30px;
+    }
+
   </style>
 
 <body>
@@ -336,12 +354,17 @@
                 {% endfor %}
             </div>
             <div class="right-wrapper">
-                <div class="header-text">
-                    {% if other_user == [] %}
-                    <i>No chat selected</i>
-                    {% else %}
-                    {{other_user.user_name}}
-                    {% endif %}
+                <div class="top-right-wrapper">
+                    <div class="header-text">
+                        {% if other_user == [] %}
+                        <i>No chat selected</i>
+                        {% else %}
+                        {{other_user.user_name}}
+                        {% endif %}
+                    </div>
+                    <a class="venmo-link-wrap" href="https://account.venmo.com/u/{{current_user.venmo}}" target="blank_">
+                        <img class="venmo-image" src="{{url_for('static', filename='venmo.png')}}" align="middle" />
+                    </a>
                 </div>
                 <div class="messages-wrapper" id="scroll-to-bottom">
                     {% for message in messages %}
