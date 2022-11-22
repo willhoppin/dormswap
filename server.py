@@ -13,9 +13,10 @@ from flask import Flask, request, render_template, g, redirect, Response, send_f
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
+
+''' BELOW: Code to utilize Imgur API for easier image uploads... future feature
 app.secret_key = 'This is your secret key to utilize session in Flask'
 client = ImgurClient('4924e300f8a2d4d', '3784cf8b2d17a159caa28c4c90c2966228f73998')
-
 UPLOAD_FOLDER = os.path.join('static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
@@ -30,6 +31,7 @@ imgurConfig = {
 class UploadFileForm(FlaskForm):
   file = FileField("File")
   submit = SubmitField("Upload File")
+'''
 
 DATABASEURI = "postgresql://dy2471:9989@34.75.94.195/proj1part2"
 engine = create_engine(DATABASEURI)
@@ -67,6 +69,7 @@ def index():
 
 @app.route('/createAccount', methods=['GET','POST'])
 def createAccount():
+  #Note: code below is for imgur API, not in use
   form = UploadFileForm()
   if form.validate_on_submit():
     uploaded_img = request.files['file']
@@ -78,6 +81,7 @@ def createAccount():
     os.remove(img_file_path)
     
     return "Grabbed the file " + img_filename + " and uploaded to " + image['link']
+    #End imgur code
   return render_template("createAccount.html", form=form)
 
 @app.route('/sendMessage/<user_id>/<chat_id>', methods=['GET','POST'])
@@ -502,7 +506,6 @@ if __name__ == "__main__":
   @click.argument('HOST', default='0.0.0.0')
   @click.argument('PORT', default=8111, type=int)
   def run(debug, threaded, host, port):
-    
 
     HOST, PORT = host, port
     print("running on %s:%d" % (HOST, PORT))
