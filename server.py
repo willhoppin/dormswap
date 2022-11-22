@@ -70,6 +70,7 @@ def index():
 @app.route('/createAccount', methods=['GET','POST'])
 def createAccount():
   #Note: code below is for imgur API, not in use
+  '''
   form = UploadFileForm()
   if form.validate_on_submit():
     uploaded_img = request.files['file']
@@ -82,7 +83,8 @@ def createAccount():
     
     return "Grabbed the file " + img_filename + " and uploaded to " + image['link']
     #End imgur code
-  return render_template("createAccount.html", form=form)
+    '''
+  return render_template("createAccount.html")
 
 @app.route('/sendMessage/<user_id>/<chat_id>', methods=['GET','POST'])
 def sendMessage(user_id, chat_id):
@@ -175,6 +177,7 @@ def newListing(user_id):
     current_user = result
   nameCursor.close()
   
+  '''
   form = UploadFileForm()
   if form.validate_on_submit():
     uploaded_img = request.files['file']
@@ -186,8 +189,8 @@ def newListing(user_id):
     os.remove(img_file_path)
     
     return "Grabbed the file " + img_filename + " and uploaded to " + image['link']
-    
-  return render_template("newListing.html", form=form, user_id=user_id, current_user=current_user)
+    '''
+  return render_template("newListing.html", user_id=user_id, current_user=current_user)
 
 @app.route('/logIn')
 def logIn():
